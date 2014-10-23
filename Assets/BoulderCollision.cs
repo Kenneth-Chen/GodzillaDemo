@@ -26,7 +26,7 @@ public class BoulderCollision : MonoBehaviour {
 				Destroy (explosion, 5);
 			}
 			if(obj.tag != "Ammo" && Random.value < 0.2f) {
-				GameObject flames = (GameObject)Instantiate(prefabFlames, transform.position, transform.rotation);
+				GameObject flames = (GameObject)Instantiate(prefabFlames, collision.transform.position, transform.rotation);
 				flames.transform.parent = obj.transform;
 				Destroy (flames, 60);
 				Destroy (obj, 60);

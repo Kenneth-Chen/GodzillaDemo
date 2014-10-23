@@ -32,7 +32,7 @@ public class BoulderWeapon : MonoBehaviour {
 			}
 			if(e.keyCode == KeyCode.F && currentCooldown <= 0.0f) {
 				Vector3 fwd = cameraObject.transform.TransformDirection(Vector3.forward) * unit;
-				Vector3 offset = transform.position + fwd;
+				Vector3 offset = transform.position + fwd + 2*Vector3.down;
 				GameObject boulder = (GameObject)Instantiate(prefabProjectile, offset, transform.rotation);
 				Rigidbody rb = boulder.AddComponent<Rigidbody>();
 				rb.mass = 1.0f;
