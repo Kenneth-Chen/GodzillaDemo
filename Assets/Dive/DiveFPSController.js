@@ -123,7 +123,7 @@ if (velocity.y < fallkillspeed)Die();
 Debug.DrawLine (transform.position, transform.position+groundNormal, Color.red);
 //print("GroundNormal y" +groundNormal.y);
 
-var directionVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+var directionVector = new Vector3(0, 0, Input.GetAxis("Vertical"));
 if (autowalk==1)directionVector=Vector3(0,0,1*inhibit_autowalk);
 if (directionVector != Vector3.zero) {
 		// Get the length of the directon vector and then normalize it
@@ -168,12 +168,12 @@ if (directionVector != Vector3.zero) {
 	
 	
 	if (grounded){
-			velocity+=inputMoveDirection*acceleration*Time.deltaTime;
-		}
-		else
-		{
-			velocity+=inputMoveDirection*acceleration_air*Time.deltaTime;
-		}
+		velocity+=inputMoveDirection*acceleration*Time.deltaTime;
+	}
+	else
+	{
+		velocity+=inputMoveDirection*acceleration_air*Time.deltaTime;
+	}
 	
 	var translation=Vector3(velocity.x,0,velocity.z);
 	
@@ -218,9 +218,12 @@ if (directionVector != Vector3.zero) {
 	
 	//if (!grounded)platformdelta=Vector3.zero;
 	
+	var rotSpeed:float = 90; // rotate speed in degrees/second
 	
 	//MAKE A MOVE!
 	
+	transform.Rotate(0, Input.GetAxis("Horizontal") * rotSpeed * Time.deltaTime, 0);
+
 	collisionFlags=controller.Move(yrotation_camera*translation+platformdelta);
 	
 	
