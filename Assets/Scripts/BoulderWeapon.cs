@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class BoulderWeapon : MonoBehaviour {
@@ -17,7 +17,7 @@ public class BoulderWeapon : MonoBehaviour {
 		Event e = Event.current;
 		if (e.isKey) {
 			// Debug.Log("Detected key code: " + e.keyCode);
-			if(e.keyCode == KeyCode.G && !giantMode) {
+			if(e.keyCode == KeyCode.Z && !giantMode) {
 				giantMode = true;
 //				this.transform.localScale *= 10;
 				CharacterController cc = GetComponent<CharacterController>();
