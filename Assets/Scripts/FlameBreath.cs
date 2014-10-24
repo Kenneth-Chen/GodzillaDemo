@@ -5,7 +5,6 @@ public class FlameBreath : MonoBehaviour {
 	public GameObject cameraObject;
 	public Camera leftCamera;
 	public GameObject fireBreath;
-	public GameObject prefabFlames;
 	public const float flameDuration = 10.0f;
 	private float durationRemaining = 0.0f;
 	private bool breathOn = false;
@@ -43,14 +42,13 @@ public class FlameBreath : MonoBehaviour {
 				GameObject target = hit.collider.gameObject;
 				if(target.tag != "Terrain" && target.tag != "Player" && target.tag != "Ammo") {
 					bool isOnFire = target.GetComponent<IsOnFire>() != null;
-					if(!isOnFire || Random.value < 0.005) {
+					if((!isOnFire || Random.value < 0.005) && Grid.flamesPrefab != null) {
 						if(!isOnFire) {
 							target.AddComponent<IsOnFire>();
 						}
-						GameObject flames = (GameObject)Instantiate(prefabFlames, hit.point, transform.rotation);
+						GameObject flames = (GameObject)Instantiate(Grid.flamesPrefab, hit.point, transform.rotation);
 						flames.transform.parent = target.transform;
-						Destroy (flames, 60);
-						Destroy (target, 60);
+						Effects.Explode(new GameObject[] {target, flames}, 40);
 					}
 				}
 			}
@@ -58,7 +56,7 @@ public class FlameBreath : MonoBehaviour {
 	}
 	
 	IEnumerator DeactivateBreath() {
-		yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(5);
 		if(durationRemaining <= 0.0f) {
 			fireBreath.SetActive(false);
 			breathOn = false;
