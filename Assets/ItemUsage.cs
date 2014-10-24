@@ -45,7 +45,6 @@ public class ItemUsage : MonoBehaviour {
 			}
 			// if the object is too far away from our hand, then release it
 			Vector3 objectToHand = rightHandSlot.transform.position - child.position;
-			Debug.Log (objectToHand.sqrMagnitude);
 			if(objectToHand.sqrMagnitude > sqrItemDropDistanceLimit) {
 				child.parent = null;
 			}

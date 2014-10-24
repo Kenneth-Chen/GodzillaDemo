@@ -4187,7 +4187,7 @@ MonoBehaviour:
   friction: .800000012
   cameraObject: {fileID: 1007540225}
   groundNormal: {x: 0, y: 0, z: 0}
-  jumpspeed: .159999996
+  jumpspeed: .209999993
   stopmovingup: 0
   fallkillspeed: -.379999995
   collisionFlags: 0
@@ -8795,6 +8795,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 923115554}
+  - 54: {fileID: 923115555}
   m_Layer: 0
   m_Name: Prefab-Firewood_B
   m_TagString: Untagged
@@ -8814,6 +8815,21 @@ Transform:
   m_Children:
   - {fileID: 73405223}
   m_Father: {fileID: 0}
+--- !u!54 &923115555
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 923115553}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &923458174
 GameObject:
   m_ObjectHideFlags: 0
@@ -12400,6 +12416,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1359133457}
+  - 54: {fileID: 1359133458}
   m_Layer: 0
   m_Name: Prefab-Cart
   m_TagString: Untagged
@@ -12419,6 +12436,21 @@ Transform:
   m_Children:
   - {fileID: 646900255}
   m_Father: {fileID: 0}
+--- !u!54 &1359133458
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1359133456}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1359601437
 GameObject:
   m_ObjectHideFlags: 0
@@ -13362,6 +13394,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1444068043}
+  - 54: {fileID: 1444068044}
   m_Layer: 0
   m_Name: Prefab-Firewood_A
   m_TagString: Untagged
@@ -13381,6 +13414,21 @@ Transform:
   m_Children:
   - {fileID: 132436347}
   m_Father: {fileID: 0}
+--- !u!54 &1444068044
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1444068042}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1458251651
 GameObject:
   m_ObjectHideFlags: 0
@@ -13520,6 +13568,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1470185210}
+  - 54: {fileID: 1470185211}
   m_Layer: 0
   m_Name: Prefab-Firewood_B
   m_TagString: Untagged
@@ -13539,6 +13588,21 @@ Transform:
   m_Children:
   - {fileID: 1458251655}
   m_Father: {fileID: 0}
+--- !u!54 &1470185211
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1470185209}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1470248579
 GameObject:
   m_ObjectHideFlags: 0
@@ -13987,6 +14051,10 @@ Prefab:
     - target: {fileID: 100004, guid: f6e83792e552acc4fbff9b5aa60f1a74, type: 2}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: f6e83792e552acc4fbff9b5aa60f1a74, type: 2}
+      propertyPath: jumpspeed
+      value: .209999993
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6e83792e552acc4fbff9b5aa60f1a74, type: 2}
@@ -18035,7 +18103,7 @@ Transform:
   m_PrefabInternal: {fileID: 2024836794}
   m_GameObject: {fileID: 1826674251}
   m_LocalRotation: {x: -.707106829, y: 0, z: -0, w: .707106829}
-  m_LocalPosition: {x: 6.39070892, y: -11.3944798, z: 91.5659866}
+  m_LocalPosition: {x: 6.39070892, y: -11.0854111, z: 91.5659866}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -19497,7 +19565,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 71b7e6d8bbee21247825c90c1ac3f94c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11.3944798
+      value: -11.0854111
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 71b7e6d8bbee21247825c90c1ac3f94c, type: 3}
       propertyPath: m_LocalPosition.z
