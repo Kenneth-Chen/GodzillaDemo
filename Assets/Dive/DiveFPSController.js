@@ -263,7 +263,7 @@ else{
 	
 	//if (!grounded)platformdelta=Vector3.zero;
 	
-	var rotSpeed:float = 60; // rotate speed in degrees/second
+	var rotSpeed:float = 45; // rotate speed in degrees/second
 	
 	//MAKE A MOVE!
 	
