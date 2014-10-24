@@ -25,6 +25,11 @@ public class LaserTarget : MonoBehaviour {
 	public void highlight(bool active){
 		wireFrame_script.ShowLines = active;
 
+
+		}
+
+	public void pickUp(GameObject pickerUpper){
+		transform.parent = pickerUpper.transform;
 		}
 
 

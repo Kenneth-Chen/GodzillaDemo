@@ -29,7 +29,7 @@ public class FaceLaser : MonoBehaviour {
 	
 	void actuate()
 	{
-		print("jumpLocation : "+target_object.name);
+		print("actuate : "+target_object.name);
 		action();
 		resetTarget ();
 	}
@@ -37,6 +37,7 @@ public class FaceLaser : MonoBehaviour {
 	{
 		//Portal doorway_portal = (Portal) target_object.GetComponent(typeof(Portal));
 		//doorway_portal.teleport();
+		target_script.pickUp (cameraObject);
 	}
 	void set_visibility(bool vis)
 	{

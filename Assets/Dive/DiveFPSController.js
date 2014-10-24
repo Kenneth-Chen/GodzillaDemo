@@ -1,5 +1,6 @@
 ﻿#pragma strict
 
+var Input = Moga_Input();
 
 
 var inputMoveDirection:Vector3;
@@ -34,6 +35,14 @@ public var reload_once:int=0;
 private var footstepLength:int=80;
 private var nextFootstepSound:int=footstepLength;
 
+	private var	aButtonKeyCode:KeyCode;
+	private var	bButtonKeyCode:KeyCode;
+	private var	xButtonKeyCode:KeyCode;
+	private var	yButtonKeyCode:KeyCode;
+	private var mogaManagerObject:GameObject;
+	private var mogaManagerScript:Moga_ControllerManager;
+	private var mogaFound = false;
+
 function Awake () {
 	controller = GetComponent (CharacterController);
 	Debug.Log("Controller Slopelimit"+controller.slopeLimit);
@@ -55,6 +64,31 @@ jumpcommand=1;
 function Start () {
 
 reload_once=0;
+
+// Try Find our Moga Manager Game Object
+		mogaManagerObject = GameObject.Find("MogaControllerManager");
+		
+		// If it exists..
+		if (mogaManagerObject != null)
+		{
+			// Check the Moga Manager Script is correctly attached to the Moga  Manager Game Object
+			mogaManagerScript = mogaManagerObject.GetComponent(Moga_ControllerManager);
+			
+			// If it is attached...
+			if (mogaManagerScript != null)
+			{
+				// Register MOGA Controller
+				Input.RegisterMogaController();
+								
+				// Get our mapped KeyCode Values and assign them.
+				aButtonKeyCode = mogaManagerScript.p1ButtonA;
+				bButtonKeyCode = mogaManagerScript.p1ButtonB;
+				xButtonKeyCode = mogaManagerScript.p1ButtonX;
+				yButtonKeyCode = mogaManagerScript.p1ButtonY;
+				
+				mogaFound = true;
+			}
+		}
 
 }
 
@@ -122,8 +156,13 @@ if (velocity.y < fallkillspeed)Die();
 
 Debug.DrawLine (transform.position, transform.position+groundNormal, Color.red);
 //print("GroundNormal y" +groundNormal.y);
-
-var directionVector = new Vector3(0, 0, Input.GetAxis("Vertical"));
+var directionVector:Vector3;
+if(mogaFound){
+	directionVector = new Vector3(0, 0, -Input.GetAxis("Vertical"));
+}
+else{
+	directionVector = new Vector3(0, 0, Input.GetAxis("Vertical"));
+	}
 if (autowalk==1)directionVector=Vector3(0,0,1*inhibit_autowalk);
 if (directionVector != Vector3.zero) {
 		// Get the length of the directon vector and then normalize it
@@ -143,7 +182,13 @@ if (directionVector != Vector3.zero) {
 	}
 		// Apply the direction to the CharacterMotor
 	inputMoveDirection =  directionVector;
+	if(mogaFound){
+	inputJump = Input.GetKeyDown(bButtonKeyCode);
+}
+else{
 	inputJump = Input.GetButton("Jump");
+	}
+	
   
   
  				
