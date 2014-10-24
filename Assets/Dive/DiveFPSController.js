@@ -218,7 +218,7 @@ if (directionVector != Vector3.zero) {
 	
 	//if (!grounded)platformdelta=Vector3.zero;
 	
-	var rotSpeed:float = 90; // rotate speed in degrees/second
+	var rotSpeed:float = 60; // rotate speed in degrees/second
 	
 	//MAKE A MOVE!
 	
