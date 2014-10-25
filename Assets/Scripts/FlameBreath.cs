@@ -40,7 +40,7 @@ public class FlameBreath : MonoBehaviour {
 			RaycastHit hit;
 			if(Physics.Raycast(leftCamera.transform.position, leftCamera.transform.forward, out hit, 12)) {
 				GameObject target = hit.collider.gameObject;
-				if(target.tag != "Terrain" && target.tag != "Player" && target.tag != "Ammo") {
+				if(target.tag != "Terrain" && target.tag != "Player" && target.tag != "Flames" && target.tag != "Ammo" && target.tag != "Portal") {
 					bool isOnFire = target.GetComponent<IsOnFire>() != null;
 					if((!isOnFire || Random.value < 0.005) && Grid.flamesPrefab != null) {
 						if(!isOnFire) {

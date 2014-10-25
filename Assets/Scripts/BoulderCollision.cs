@@ -5,7 +5,7 @@ public class BoulderCollision : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision) {
 		GameObject obj = collision.collider.gameObject;
-		if(obj.tag != "Terrain" && obj.tag != "Player" && obj.tag != "Flames") {
+		if(obj.tag != "Terrain" && obj.tag != "Player" && obj.tag != "Flames" && obj.tag != "Portal") {
 			GameObject parent = obj.transform.parent != null ? obj.transform.parent.gameObject : obj;
 			foreach(Transform childTransform in parent.GetComponentsInChildren<Transform>()) {
 				GameObject child = childTransform.gameObject;

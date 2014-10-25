@@ -30,13 +30,13 @@ public class BoulderWeapon : MonoBehaviour {
 			}
 			// fire boulder weapon
 			if(e.keyCode == KeyCode.F && currentCooldown <= 0.0f) {
+				currentCooldown = cooldown;
 				Vector3 fwd = cameraObject.transform.TransformDirection(Vector3.forward) * unit;
 				Vector3 offset = transform.position + fwd + 2*Vector3.down;
 				GameObject boulder = (GameObject)Instantiate(Grid.boulderPrefab, offset, transform.rotation);
 				Rigidbody rb = boulder.AddComponent<Rigidbody>();
 				rb.mass = 1.0f;
 				rb.AddForce(fwd * speed, ForceMode.Impulse);
-				currentCooldown = cooldown;
 				audio.Play();
 				Destroy (boulder, 120);
 			}

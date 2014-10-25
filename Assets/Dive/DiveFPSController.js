@@ -15,12 +15,14 @@ public var acceleration=10;
 public var acceleration_air=10;
 public var gravity=-0.18;
 public var friction=0.8;
+public var terminalVelocity=-2.5;
 public var cameraObject:GameObject;
 private var controller : CharacterController;
 public var groundNormal:Vector3;
 public var jumpspeed=0.16;
 public var stopmovingup=false;
 public var fallkillspeed=-0.38;
+public var killPositionLowerBound=-100;
 public var collisionFlags : CollisionFlags; 
 
 public var ground_gameobject:GameObject=null;
@@ -95,8 +97,6 @@ reload_once=0;
 
 function OnControllerColliderHit (hit : ControllerColliderHit) {
 
-
-	
 if (hit.normal.y > 0 && hit.moveDirection.y < 0) {
 
 		groundNormal = hit.normal;
@@ -152,7 +152,7 @@ function Update () {
 
 
 if (velocity.y < fallkillspeed)Die();
-
+if (this.transform.position.y < killPositionLowerBound)Die();
 
 Debug.DrawLine (transform.position, transform.position+groundNormal, Color.red);
 //print("GroundNormal y" +groundNormal.y);
@@ -227,6 +227,9 @@ else{
 	velocity.x=translation.x;
 	velocity.z=translation.z;
 	velocity.y = velocity.y+gravity*Time.deltaTime;
+	if(velocity.y < terminalVelocity) {
+		velocity.y = terminalVelocity;
+	}
 	//print ("Time deltatime "+Time.deltaTime);
 	
 	
