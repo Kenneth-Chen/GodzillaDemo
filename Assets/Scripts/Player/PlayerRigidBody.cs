@@ -6,8 +6,8 @@ public class PlayerRigidBody : MonoBehaviour {
 	// Script added to a player for it to be able to push rigidbodies around.
 	
 	// How hard the player can push
-	float LightpushPower = 0.5f;
-	float HeavypushPower = 0.1f;
+	float LightpushPower = 0.4f;
+	float HeavypushPower = 2.0f;
 	
 	// Which layers the player can push
 	// This is useful to make unpushable rigidbodies
