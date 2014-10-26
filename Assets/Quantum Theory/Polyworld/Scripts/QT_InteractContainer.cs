@@ -25,7 +25,9 @@ public class QT_InteractContainer : MonoBehaviour {
 
     void OnTriggerStay()
     {
-   
+		if(PopUpText == null) {
+			return;
+		}
         Vector3 rayStart = Camera.main.ViewportToWorldPoint(centerScreen);
         Vector3 rayDir = Camera.main.transform.forward;        
         RaycastHit rayHit;
