@@ -15,7 +15,7 @@ public class GrowthPowerupActivated : MonoBehaviour {
 
 	void Start () {
 		cc = this.gameObject.GetComponent<CharacterController> ();
-		diveFPSController = this.gameObject.GetComponent<DiveFPSController> ();
+		diveFPSController = Grid.playerComponent;
 		startingRadius = cc.radius;
 		startingHeight = cc.height;
 		finalRadius = growthFactor * cc.radius;
@@ -30,7 +30,9 @@ public class GrowthPowerupActivated : MonoBehaviour {
 			diveFPSController.max_speed_air = 0.24f;
 			diveFPSController.max_speed_ground = 0.24f;
 			diveFPSController.gravity = -0.41f;
-			diveFPSController.jumpspeed = 0.28f;			
+			diveFPSController.jumpspeed = 0.28f;
+			Effects.SetGlobalFogStartDistance(3.0f);
+			Grid.rightHandItemSlot.transform.localPosition = new Vector3(2.5f, 0.0f, 5.0f);
 			Destroy(this);
 			return;
 		}

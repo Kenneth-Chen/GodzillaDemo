@@ -13,15 +13,12 @@ public class FaceLaser : MonoBehaviour {
 	private LaserTarget target_script;
 	//private Texture2D door_green = Resources.Load("door_green_bg") as Texture2D;
 	//private Texture2D door_trans = Resources.Load("door_trans_bg") as Texture2D;
-	
-	//Use this for initilization
+
 	void Start ()
 	{
-		print ("Facelaser start");
-		titleTextObject.text = "hello!";
+		//titleTextObject.text = "hello!";
 	}
-	
-	//Update is called once per frame
+
 	void Update ()
 	{
 		Fire();
@@ -29,7 +26,7 @@ public class FaceLaser : MonoBehaviour {
 	
 	void actuate()
 	{
-		print("actuate : "+target_object.name);
+		//Debug.Log("actuate : "+target_object.name);
 		action();
 		resetTarget ();
 	}
@@ -41,8 +38,7 @@ public class FaceLaser : MonoBehaviour {
 	}
 	void set_visibility(bool vis)
 	{
-
-		if (vis == true) 
+		if (vis == true)
 		{
 			//show title in gui text
 			titleTextObject.text = target_script.getTitle();
@@ -58,7 +54,6 @@ public class FaceLaser : MonoBehaviour {
 		{
 			//print("resetDoorway : "+doorway.name);
 			set_visibility(false);
-
 		}
 	}
 	private void resetTimer()
@@ -77,13 +72,10 @@ public class FaceLaser : MonoBehaviour {
 			
 			if(hit.collider.tag == "LaserTarget")
 			{
-				print ("Target hit");
 				target_object = hit.collider.gameObject;
 				target_script = (LaserTarget) target_object.GetComponent(typeof(LaserTarget));
-
 				//doorway.renderer.material.color = new Color( 0, 0, 255, 0 );
-				
-				
+
 				//if not set, show the box and start timer
 				if(nextFireTime == 0.0)
 				{

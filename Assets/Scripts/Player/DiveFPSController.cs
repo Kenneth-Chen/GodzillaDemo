@@ -27,7 +27,6 @@ public class DiveFPSController : MonoBehaviour {
 	public float gravity=-0.18f;
 	public float friction=0.8f;
 	public float terminalVelocity=-2.5f;
-	public GameObject cameraObject;
 	private CharacterController controller;
 	public Vector3 groundNormal;
 	public float jumpspeed=0.16f;
@@ -82,7 +81,7 @@ public class DiveFPSController : MonoBehaviour {
 			{
 				// Register MOGA Controller
 				Input.RegisterMogaController();
-				
+
 				// Get our mapped KeyCode Values and assign them.
 				aButtonKeyCode = mogaManagerScript.p1ButtonA;
 				bButtonKeyCode = mogaManagerScript.p1ButtonB;
@@ -102,6 +101,13 @@ public class DiveFPSController : MonoBehaviour {
 			
 			//print("Landed on: ground"+ground_gameobject.name);
 			stopmovingup=false;
+		}
+	}
+
+	void OnGUI () {
+		Event e = Event.current;
+		if(e.isKey && e.keyCode == KeyCode.Escape) {
+			StartCoroutine(Die ());
 		}
 	}
 
@@ -226,7 +232,7 @@ public class DiveFPSController : MonoBehaviour {
 		velocity.z = translation.z;
 		translation.y = velocity.y;
 
-		Quaternion yrotation_camera = Quaternion.Euler(0, cameraObject.transform.rotation.eulerAngles.y, 0);
+		Quaternion yrotation_camera = Quaternion.Euler(0, Grid.cameraObject.transform.rotation.eulerAngles.y, 0);
 		//transform.position+=yrotation_camera*translation;
 
 		Vector3 platformdelta = Vector3.zero;

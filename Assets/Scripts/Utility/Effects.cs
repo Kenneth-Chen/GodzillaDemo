@@ -9,6 +9,13 @@ public class Effects : Singleton<Effects> {
 	void Awake() {
 	}
 
+	public static void SetGlobalFogStartDistance(float distance) {
+		GlobalFog[] fogs = Grid.cameraObject.GetComponentsInChildren<GlobalFog> ();
+		foreach(GlobalFog fog in fogs) {
+			fog.startDistance = distance;
+		}
+	}
+
 	// destroys all GameObject in the given array, and instantiates an explosion at the position of the first object in the array
 	public static void Explode(GameObject[] objs, int seconds) {
 		Effects.Instance.StartCoroutine (Effects.Instance.ExplodeHelper (objs, seconds));

@@ -66,6 +66,9 @@ public class Moga_Input : MonoBehaviour
 #if UNITY_ANDROID
 	void Update()
 	{
+		if(mControllerManager == null) {
+			return;
+		}
 		foreach (Dictionary<int, float> axes in mAxes.Values)
 		{
 			foreach (int axisKey in new List<int>(axes.Keys))
