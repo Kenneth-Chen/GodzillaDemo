@@ -7,6 +7,7 @@ public class GrowthPowerup : MonoBehaviour {
 		if((cc = collider.GetComponent<CharacterController>()) != null) {
 			cc.gameObject.AddComponent<GrowthPowerupActivated>();
 			cc.gameObject.AddComponent<GiantFootsteps>();
+			cc.gameObject.AddComponent<BoulderWeapon>();
 			Destroy (this.gameObject);
 		}
 	}

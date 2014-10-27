@@ -10402,6 +10402,7 @@ GameObject:
   - 4: {fileID: 230972641}
   - 33: {fileID: 230972640}
   - 23: {fileID: 230972639}
+  - 136: {fileID: 230972642}
   m_Layer: 8
   m_Name: Bush-Potted_B
   m_TagString: Untagged
@@ -10450,6 +10451,19 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!136 &230972642
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 230972638}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: .300000012
+  m_Height: 2.4000001
+  m_Direction: 2
+  m_Center: {x: 0, y: .0500000007, z: 1.20313036}
 --- !u!1 &234216371
 GameObject:
   m_ObjectHideFlags: 0
@@ -53563,7 +53577,6 @@ GameObject:
   - 82: {fileID: 1356505738}
   - 82: {fileID: 1356505737}
   - 114: {fileID: 1356505736}
-  - 114: {fileID: 1356505735}
   - 114: {fileID: 1356505734}
   - 114: {fileID: 1356505733}
   - 114: {fileID: 1356505732}
@@ -53684,17 +53697,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireBreath: {fileID: 142785233}
   flameDuration: 10
---- !u!114 &1356505735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1356505729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3f35b4e265924b49802ee37001a1391, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1356505736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66925,6 +66927,7 @@ GameObject:
   - 4: {fileID: 1714269874}
   - 33: {fileID: 1714269873}
   - 23: {fileID: 1714269872}
+  - 136: {fileID: 1714269875}
   m_Layer: 8
   m_Name: Bush-Potted_B
   m_TagString: Untagged
@@ -66973,6 +66976,19 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!136 &1714269875
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1714269871}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: .400000006
+  m_Height: 2.29999995
+  m_Direction: 2
+  m_Center: {x: -1.17231966e-08, y: 4.98308239e-08, z: 1.10000002}
 --- !u!1001 &1714784618
 Prefab:
   m_ObjectHideFlags: 0
@@ -81924,6 +81940,7 @@ GameObject:
   - 4: {fileID: 2102051488}
   - 33: {fileID: 2102051487}
   - 23: {fileID: 2102051486}
+  - 136: {fileID: 2102051489}
   m_Layer: 8
   m_Name: Bush-Potted_A
   m_TagString: Untagged
@@ -81972,6 +81989,19 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!136 &2102051489
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2102051485}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: .699999988
+  m_Height: 2.5
+  m_Direction: 2
+  m_Center: {x: .0105249621, y: .0122858314, z: 1.25332916}
 --- !u!1 &2102423811
 GameObject:
   m_ObjectHideFlags: 0
@@ -82879,6 +82909,7 @@ GameObject:
   - 4: {fileID: 2133245379}
   - 33: {fileID: 2133245378}
   - 23: {fileID: 2133245377}
+  - 136: {fileID: 2133245380}
   m_Layer: 8
   m_Name: Bush-Potted_A
   m_TagString: Untagged
@@ -82927,6 +82958,19 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!136 &2133245380
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2133245376}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: .699999988
+  m_Height: 2.5
+  m_Direction: 2
+  m_Center: {x: .0105249286, y: .0122857718, z: 1.25332952}
 --- !u!1 &2136292492
 GameObject:
   m_ObjectHideFlags: 0
