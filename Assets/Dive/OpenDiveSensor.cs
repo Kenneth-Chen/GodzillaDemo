@@ -252,6 +252,7 @@ public class OpenDiveSensor : MonoBehaviour {
 		
 		if (add_rotation_gameobject){
 			transform.rotation =rotation_gameobject.transform.rotation* rot;
+			representation_gameobject.transform.rotation = rotation_gameobject.transform.rotation* rot;
 		}
 		else
 		{
