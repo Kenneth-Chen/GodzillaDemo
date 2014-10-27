@@ -1,6 +1,6 @@
 ﻿#pragma strict
 
-var moga_input = Moga_Input();
+var Input = Moga_Input();
 
 
 var inputMoveDirection:Vector3;
@@ -15,14 +15,12 @@ public var acceleration=10;
 public var acceleration_air=10;
 public var gravity=-0.18;
 public var friction=0.8;
-public var terminalVelocity=-2.5;
 public var cameraObject:GameObject;
 private var controller : CharacterController;
 public var groundNormal:Vector3;
 public var jumpspeed=0.16;
 public var stopmovingup=false;
 public var fallkillspeed=-0.38;
-public var killPositionLowerBound=-100;
 public var collisionFlags : CollisionFlags; 
 
 public var ground_gameobject:GameObject=null;
@@ -47,6 +45,7 @@ private var nextFootstepSound:int=footstepLength;
 
 function Awake () {
 	controller = GetComponent (CharacterController);
+	Debug.Log("Controller Slopelimit"+controller.slopeLimit);
 }
 
 function toggle_autowalk(){
@@ -79,7 +78,7 @@ reload_once=0;
 			if (mogaManagerScript != null)
 			{
 				// Register MOGA Controller
-				moga_input.RegisterMogaController();
+				Input.RegisterMogaController();
 								
 				// Get our mapped KeyCode Values and assign them.
 				aButtonKeyCode = mogaManagerScript.p1ButtonA;
@@ -96,6 +95,8 @@ reload_once=0;
 
 function OnControllerColliderHit (hit : ControllerColliderHit) {
 
+
+	
 if (hit.normal.y > 0 && hit.moveDirection.y < 0) {
 
 		groundNormal = hit.normal;
@@ -151,7 +152,7 @@ function Update () {
 
 
 if (velocity.y < fallkillspeed)Die();
-if (this.transform.position.y < killPositionLowerBound)Die();
+
 
 Debug.DrawLine (transform.position, transform.position+groundNormal, Color.red);
 //print("GroundNormal y" +groundNormal.y);
@@ -226,9 +227,6 @@ else{
 	velocity.x=translation.x;
 	velocity.z=translation.z;
 	velocity.y = velocity.y+gravity*Time.deltaTime;
-	if(velocity.y < terminalVelocity) {
-		velocity.y = terminalVelocity;
-	}
 	//print ("Time deltatime "+Time.deltaTime);
 	
 	
@@ -265,7 +263,7 @@ else{
 	
 	//if (!grounded)platformdelta=Vector3.zero;
 	
-	var rotSpeed:float = 45; // rotate speed in degrees/second
+	var rotSpeed:float = 90; // rotate speed in degrees/second
 	
 	//MAKE A MOVE!
 	
@@ -278,7 +276,7 @@ else{
 	{
 	
 	if (stopmovingup==false){
-		// print ("ControllerColliderHit");	
+		print ("ControllerColliderHit");	
 		velocity.y=0;	
 		stopmovingup=true;
 	}

@@ -45,13 +45,13 @@ public class DiveFPSController : MonoBehaviour {
 	public float inhibit_autowalk=1;
 	public int reload_once=0;
 
-	private KeyCode aButtonKeyCode;
-	private KeyCode bButtonKeyCode;
-	private KeyCode xButtonKeyCode;
-	private KeyCode yButtonKeyCode;
-	private GameObject mogaManagerObject;
-	private Moga_ControllerManager mogaManagerScript;
-	private bool mogaFound= false;
+	private KeyCode						aButtonKeyCode,
+	bButtonKeyCode,
+	xButtonKeyCode,
+	yButtonKeyCode;
+	private GameObject 					mogaManagerObject;
+	private Moga_ControllerManager 		mogaManagerScript;
+	bool mogaFound = false;
 	
 	void Awake (){
 		controller = GetComponent<CharacterController>();
