@@ -113,7 +113,7 @@ public class DiveFPSController : MonoBehaviour {
 
 	float fadeduration= 2.0f; // fade duration in seconds
 	
-	IEnumerator Die (){
+	IEnumerator Die() {
 		// create a GUITexture:
 		GameObject fade = new GameObject();
 		fade.AddComponent<GUITexture>();
@@ -135,8 +135,9 @@ public class DiveFPSController : MonoBehaviour {
 			reload_once =1;
 			AsyncOperation async = Application.LoadLevelAsync(Application.loadedLevel);
 			yield return async;
-			
 		}
+		Debug.Log ("reloading all game objects");
+		Grid.LoadAllGameObjects ();
 	}
 
 	void Update () {

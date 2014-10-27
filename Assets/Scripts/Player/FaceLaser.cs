@@ -5,14 +5,12 @@ using System.Collections;
 public class FaceLaser : MonoBehaviour {
 	
 	public GameObject gunBarrel;
-	public GameObject cameraObject;
 	public GUIText titleTextObject;
 	private double defaultDelayTime = 3.0;
 	private double nextFireTime = 0.0;
 	private GameObject target_object;
-	private LaserTarget target_script;
-	//private Texture2D door_green = Resources.Load("door_green_bg") as Texture2D;
-	//private Texture2D door_trans = Resources.Load("door_trans_bg") as Texture2D;
+	private Highlightable target_script;
+	private bool autoSelectEnabled = false;
 
 	void Start ()
 	{
@@ -21,84 +19,71 @@ public class FaceLaser : MonoBehaviour {
 
 	void Update ()
 	{
-		Fire();
+		RaycastHit hit;		
+		if (Physics.Raycast(gunBarrel.transform.position, gunBarrel.transform.forward, out hit))
+		{
+			target_object = hit.collider.gameObject;
+			while(target_object.transform.parent != null) {
+				target_object = target_object.transform.parent.gameObject;
+			}
+			target_script = target_object.GetComponent<Highlightable>();
+			if(target_script != null) {
+				setHighlighted(true);
+				// if not set, show the box and start timer
+				if(nextFireTime == 0.0)
+				{
+					nextFireTime = Time.time + defaultDelayTime; 
+				}
+				// if it's been long enough, actuate
+				if(autoSelectEnabled && Time.time > nextFireTime)
+				{
+					actuate();
+				}
+			} else {
+				// if we lose focus, reset the timer
+				reset();
+			}
+		} else {
+			// if we lose focus, reset the timer
+			reset();
+		}
 	}
-	
+
+	void OnGUI () {
+		Event e = Event.current;
+		if (e.isKey && e.keyCode == KeyCode.E) {
+			actuate();
+		}
+	}
+
 	void actuate()
 	{
-		//Debug.Log("actuate : "+target_object.name);
-		action();
-		resetTarget ();
+		if(target_script != null) {
+			target_script.doAction();
+		}
+		reset ();
 	}
-	void action()
-	{
-		//Portal doorway_portal = (Portal) target_object.GetComponent(typeof(Portal));
-		//doorway_portal.teleport();
-		target_script.pickUp (cameraObject);
-	}
-	void set_visibility(bool vis)
+
+	void setHighlighted(bool vis)
 	{
 		if (vis == true)
 		{
 			//show title in gui text
 			titleTextObject.text = target_script.getTitle();
-			target_script.highlight(true);
+			if(target_script != null) {
+				target_script.highlight(true);
+			}
 		} else {
 			titleTextObject.text = "";
-			target_script.highlight(false);
+			if(target_script != null) {
+				target_script.highlight(false);
+			}
 		}
 	}
-	private void resetTarget()
-	{
-		if (target_object != null) 
-		{
-			//print("resetDoorway : "+doorway.name);
-			set_visibility(false);
-		}
-	}
-	private void resetTimer()
+
+	private void reset()
 	{
 		nextFireTime = 0.0;
-	}
-	
-	private void Fire()
-	{
-		//add reload delay for fire - no button mashing : )
-		
-		RaycastHit hit;
-		
-		if (Physics.Raycast(gunBarrel.transform.position, gunBarrel.transform.forward, out hit))
-		{
-			
-			if(hit.collider.tag == "LaserTarget")
-			{
-				target_object = hit.collider.gameObject;
-				target_script = (LaserTarget) target_object.GetComponent(typeof(LaserTarget));
-				//doorway.renderer.material.color = new Color( 0, 0, 255, 0 );
-
-				//if not set, show the box and start timer
-				if(nextFireTime == 0.0)
-				{
-					//print("Hit : "+doorway.name);
-					nextFireTime = Time.time + defaultDelayTime; 
-					float alphaDelta = (float)(Time.deltaTime/defaultDelayTime);
-					set_visibility(true);
-				}
-				//if it's been long enough, go through the door
-				if(Time.time > nextFireTime)
-				{
-					//cameraObject.transform.position = new Vector3(5, 0, 0);
-					actuate();
-				}
-			}else{
-				resetTimer();
-				resetTarget();}
-			
-		}else{
-			//if not hitting the doorway, hide the doorway and reset timer
-			resetTimer();
-			resetTarget();
-			
-		}
+		setHighlighted (false);
 	}
 }

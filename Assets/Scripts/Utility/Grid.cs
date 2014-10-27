@@ -15,6 +15,10 @@ static class Grid
 		explosionPrefab = LoadPrefab("Effects/Explosion");
 		flamesPrefab = LoadPrefab("Effects/Flames");
 		boulderPrefab = LoadPrefab ("Weapons/BoulderWeapon");
+		LoadAllGameObjects ();
+	}
+
+	public static void LoadAllGameObjects() {
 		cameraObject = SafeFind ("Dive_Camera");
 		playerObject = SafeFind ("Player");
 		playerComponent = (DiveFPSController)SafeComponent (playerObject, "DiveFPSController");
