@@ -46,9 +46,9 @@ public class DiveFPSController : MonoBehaviour {
 	public int reload_once=0;
 
 	private KeyCode						aButtonKeyCode,
-	bButtonKeyCode,
-	xButtonKeyCode,
-	yButtonKeyCode;
+										bButtonKeyCode,
+										xButtonKeyCode,
+										yButtonKeyCode;
 	private GameObject 					mogaManagerObject;
 	private Moga_ControllerManager 		mogaManagerScript;
 	bool mogaFound = false;
