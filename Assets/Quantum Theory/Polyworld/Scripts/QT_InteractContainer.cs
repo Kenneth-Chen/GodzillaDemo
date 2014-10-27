@@ -65,7 +65,10 @@ public class QT_InteractContainer : MonoBehaviour {
 
     void OnTriggerExit()
     {
-        PopUpText.gameObject.SetActive(false);       
+		if(PopUpText == null) {
+			return;
+		}
+		PopUpText.gameObject.SetActive(false);       
     }
 
 }

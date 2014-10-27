@@ -2,10 +2,8 @@
 using System.Collections;
 
 public class FlameBreath : MonoBehaviour {
-	public GameObject cameraObject;
-	public Camera leftCamera;
 	public GameObject fireBreath;
-	public const float flameDuration = 10.0f;
+	public float flameDuration = 10.0f;
 	private float durationRemaining = 0.0f;
 	private bool breathOn = false;
 	private ParticleSystem particles;
@@ -38,7 +36,7 @@ public class FlameBreath : MonoBehaviour {
 		}
 		if(breathOn) {
 			RaycastHit hit;
-			if(Physics.Raycast(leftCamera.transform.position, leftCamera.transform.forward, out hit, 12)) {
+			if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 12)) {
 				GameObject target = hit.collider.gameObject;
 				if(target.tag != "Terrain" && target.tag != "Player" && target.tag != "Flames" && target.tag != "Ammo" && target.tag != "Portal"
 				   && target.GetComponent<TerrainCollider>() == null) {

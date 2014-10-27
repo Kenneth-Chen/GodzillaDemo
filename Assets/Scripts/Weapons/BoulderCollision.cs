@@ -22,11 +22,10 @@ public class BoulderCollision : MonoBehaviour {
 
 			if(Grid.explosionPrefab != null) {
 				GameObject explosion = (GameObject)Instantiate(Grid.explosionPrefab, transform.position, transform.rotation);
-				Destroy (explosion, 5);
+				Destroy (explosion, 2);
 			}
 			if(Grid.flamesPrefab != null && obj.tag != "Ammo" && Random.value < 0.4f) {
 				GameObject flames = (GameObject)Instantiate(Grid.flamesPrefab, collision.transform.position, transform.rotation);
-				flames.tag = "Flames";
 				flames.transform.parent = obj.transform;
 				Effects.Explode(new GameObject[] {obj, flames}, 40);
 			}

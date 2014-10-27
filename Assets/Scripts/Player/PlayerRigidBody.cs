@@ -12,14 +12,7 @@ public class PlayerRigidBody : MonoBehaviour {
 	// Which layers the player can push
 	// This is useful to make unpushable rigidbodies
 	LayerMask pushLayers = -1;
-	
-	// pointer to the player so we can get values from it quickly
-	private CharacterController controller;
-	
-	void Start () {
-		controller = GetComponent<CharacterController>();	
-	}
-	
+
 	void OnControllerColliderHit (ControllerColliderHit hit) {
 		Rigidbody body = hit.collider.attachedRigidbody;
 		// no rigidbody

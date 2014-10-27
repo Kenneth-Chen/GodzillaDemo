@@ -1,6 +1,6 @@
 ﻿#pragma strict
 
-var Input = Moga_Input();
+var moga_input = Moga_Input();
 
 
 var inputMoveDirection:Vector3;
@@ -47,7 +47,6 @@ private var nextFootstepSound:int=footstepLength;
 
 function Awake () {
 	controller = GetComponent (CharacterController);
-	Debug.Log("Controller Slopelimit"+controller.slopeLimit);
 }
 
 function toggle_autowalk(){
@@ -80,7 +79,7 @@ reload_once=0;
 			if (mogaManagerScript != null)
 			{
 				// Register MOGA Controller
-				Input.RegisterMogaController();
+				moga_input.RegisterMogaController();
 								
 				// Get our mapped KeyCode Values and assign them.
 				aButtonKeyCode = mogaManagerScript.p1ButtonA;
