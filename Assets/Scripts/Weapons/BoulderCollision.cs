@@ -7,18 +7,21 @@ public class BoulderCollision : MonoBehaviour {
 		GameObject obj = collision.collider.gameObject;
 		if(obj.tag != "Terrain" && obj.tag != "Player" && obj.tag != "Flames" && obj.tag != "Portal"
 		   && obj.GetComponent<TerrainCollider>() == null) {
-			GameObject toplvlGameObj = obj.transform.parent != null ? obj.transform.parent.gameObject : obj;
-			foreach(Transform childTransform in toplvlGameObj.GetComponentsInChildren<Transform>()) {
-				GameObject child = childTransform.gameObject;
-				if(child.tag == "Flames") {
-					continue;
+			if(obj.transform.parent == null) {
+				MakeRigid(obj);
+			} else {
+				GameObject parent = obj.transform.parent.gameObject;
+				foreach(Transform childTransform in parent.transform) {
+					GameObject child = childTransform.gameObject;
+					if(child.tag == "Flames") {
+						continue;
+					}
+					MakeRigid(child);
 				}
-				MakeRigid(child);
 			}
-			MakeRigid(toplvlGameObj);
 			Vector3 fwd = transform.TransformDirection (Vector3.forward);
 			float speed = this.rigidbody.velocity.magnitude;
-			toplvlGameObj.rigidbody.AddForce(fwd * speed, ForceMode.Impulse);
+			obj.rigidbody.AddForce(fwd * speed, ForceMode.Impulse);
 
 			if(Grid.explosionPrefab != null) {
 				GameObject explosion = (GameObject)Instantiate(Grid.explosionPrefab, transform.position, transform.rotation);
