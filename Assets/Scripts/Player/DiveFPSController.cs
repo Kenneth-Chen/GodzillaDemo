@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Input = Moga_Input;
 
 [RequireComponent (typeof(CharacterController))]
 public class DiveFPSController : MonoBehaviour {
@@ -26,7 +25,7 @@ public class DiveFPSController : MonoBehaviour {
 	public int acceleration_air=10;
 	public float gravity=-0.18f;
 	public float friction=0.8f;
-	public float terminalVelocity=-2.5f;
+	private float terminalVelocity=-2.5f;
 	private CharacterController controller;
 	public Vector3 groundNormal;
 	public float jumpspeed=0.16f;
@@ -34,23 +33,15 @@ public class DiveFPSController : MonoBehaviour {
 	public float fallkillspeed=-0.38f;
 	public float killPositionLowerBound=-100;
 	public CollisionFlags collisionFlags; 
-	
+	private float rotationSpeed = 45.0f; // rotate speed in degrees/second
+
 	public GameObject ground_gameobject=null;
 	public Vector3 last_ground_pos;
-	private int jumpcommand=0;
 	public bool floating=false;
 	
 	public int autowalk=0;
 	public float inhibit_autowalk=1;
 	public int reload_once=0;
-
-	private KeyCode						aButtonKeyCode,
-										bButtonKeyCode,
-										xButtonKeyCode,
-										yButtonKeyCode;
-	private GameObject 					mogaManagerObject;
-	private Moga_ControllerManager 		mogaManagerScript;
-	bool mogaFound = false;
 	
 	void Awake (){
 		controller = GetComponent<CharacterController>();
@@ -60,37 +51,9 @@ public class DiveFPSController : MonoBehaviour {
 		if (autowalk==0)autowalk=1;
 		else autowalk=0;
 	}
-	
-	void JumpUp (){	
-		jumpcommand=1;
-	}
 
 	void Start (){
 		reload_once=0;
-		// Try Find our Moga Manager Game Object
-		mogaManagerObject = GameObject.Find("MogaControllerManager");
-		
-		// If it exists..
-		if (mogaManagerObject != null)
-		{
-			// Check the Moga Manager Script is correctly attached to the Moga  Manager Game Object
-			mogaManagerScript = mogaManagerObject.GetComponent<Moga_ControllerManager>();
-			
-			// If it is attached...
-			if (mogaManagerScript != null)
-			{
-				// Register MOGA Controller
-				Input.RegisterMogaController();
-
-				// Get our mapped KeyCode Values and assign them.
-				aButtonKeyCode = mogaManagerScript.p1ButtonA;
-				bButtonKeyCode = mogaManagerScript.p1ButtonB;
-				xButtonKeyCode = mogaManagerScript.p1ButtonX;
-				yButtonKeyCode = mogaManagerScript.p1ButtonY;
-				
-				mogaFound = true;
-			}
-		}
 	}
 
 	void OnControllerColliderHit ( ControllerColliderHit hit  ){
@@ -107,7 +70,7 @@ public class DiveFPSController : MonoBehaviour {
 	void OnGUI () {
 		Event e = Event.current;
 		if(e.isKey && e.keyCode == KeyCode.Escape) {
-			StartCoroutine(Die ());
+			//StartCoroutine(Die ());
 		}
 	}
 
@@ -142,7 +105,7 @@ public class DiveFPSController : MonoBehaviour {
 
 	void Update () {
 		if (velocity.y < fallkillspeed || this.transform.position.y < killPositionLowerBound) {
-			StartCoroutine(Die());
+			//StartCoroutine(Die());
 			return;
 		}
 
@@ -150,12 +113,8 @@ public class DiveFPSController : MonoBehaviour {
 		//print("GroundNormal y" +groundNormal.y);
 
 		Vector3 directionVector;
-		if(mogaFound){
-			directionVector = new Vector3(0, 0, -Input.GetAxis("Vertical"));
-		}
-		else{
-			directionVector = new Vector3(0, 0, Input.GetAxis("Vertical"));
-		}
+		directionVector = new Vector3(0, 0, InputManager.GetAxis("Vertical"));
+
 		if (autowalk==1) directionVector = new Vector3(0,0,1*inhibit_autowalk);
 		if (directionVector != Vector3.zero) {
 			// Get the length of the directon vector and then normalize it
@@ -175,20 +134,10 @@ public class DiveFPSController : MonoBehaviour {
 		}
 		// Apply the direction to the CharacterMotor
 		inputMoveDirection =  directionVector;
-		if(mogaFound){
-			inputJump = Input.GetKeyDown(bButtonKeyCode);
-		}
-		else{
-			inputJump = Input.GetButton("Jump");
-		}
-		
-		if(jumpcommand==1){
-			inputJump=true;	
-			jumpcommand=0;
-		}
-		
+		inputJump = InputManager.GetAction("Jump");
+
 		grounded = (collisionFlags & CollisionFlags.Below) != 0;
-		
+
 		if (floating){
 			velocity.y=0.1f;
 		}
@@ -198,8 +147,7 @@ public class DiveFPSController : MonoBehaviour {
 
 			grounded=false;
 		}
-		
-		
+
 		if (grounded) {
 			velocity+=inputMoveDirection*acceleration*Time.deltaTime;
 		}
@@ -244,31 +192,24 @@ public class DiveFPSController : MonoBehaviour {
 		}
 		
 		//if (!grounded)platformdelta=Vector3.zero;
-		
-		float rotSpeed = 45; // rotate speed in degrees/second
-		
-		//MAKE A MOVE!
-		
-		transform.Rotate(0, Input.GetAxis("Horizontal") * rotSpeed * Time.deltaTime, 0);
 
+		//MAKE A MOVE!
+		transform.Rotate(0, InputManager.GetAxis ("Horizontal") * rotationSpeed * Time.deltaTime, 0);
 		collisionFlags=controller.Move(yrotation_camera*translation+platformdelta);
 		
 		if ((collisionFlags & CollisionFlags.CollidedAbove) != 0)
 		{
-			
 			if (stopmovingup==false){
-				velocity.y=0;	
+				velocity.y=0;
 				stopmovingup=true;
 			}
-			
 		}
 
 		if (ground_gameobject!=null && !grounded){
 			ground_gameobject=null;
 		}
 
-		if(ground_gameobject!=null)last_ground_pos=ground_gameobject.transform.position;	
-
+		if(ground_gameobject!=null)last_ground_pos=ground_gameobject.transform.position;
 	}
 
 	void  OnTriggerEnter (Collider other){

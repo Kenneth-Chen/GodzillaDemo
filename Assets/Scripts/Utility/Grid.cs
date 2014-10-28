@@ -7,8 +7,12 @@ static class Grid
 	public static Object boulderPrefab;
 	public static GameObject playerObject;
 	public static DiveFPSController playerComponent;
+	public static GameObject mogaManagerObject;
 	public static GameObject cameraObject;
+	public static GameObject leftCameraObject;
+	public static GameObject rightCameraObject;
 	public static GameObject rightHandItemSlot;
+	public static GameObject fireBreath;
 
 	static Grid()
 	{
@@ -19,10 +23,18 @@ static class Grid
 	}
 
 	public static void LoadAllGameObjects() {
-		cameraObject = SafeFind ("Dive_Camera");
-		playerObject = SafeFind ("Player");
+		mogaManagerObject = SafeFind ("/MogaControllerManager");
+		playerObject = SafeFind ("/Player");
+		cameraObject = SafeFind ("/Player/Dive_Camera");
+		leftCameraObject = SafeFind ("/Player/Dive_Camera/Camera_left");
+		rightCameraObject = SafeFind ("/Player/Dive_Camera/Camera_right");
 		playerComponent = (DiveFPSController)SafeComponent (playerObject, "DiveFPSController");
-		rightHandItemSlot = SafeFind ("RightHandItemSlot");
+		rightHandItemSlot = SafeFind ("/Player/Dive_Camera/RightHandItemSlot");
+		fireBreath = SafeFind ("/Player/Dive_Camera/FireBreath");
+		// todo: fix so that we can find inactive objects
+		if(fireBreath != null) {
+			fireBreath.SetActive (false);
+		}
 	}
 
 	private static Object LoadPrefab(string s)

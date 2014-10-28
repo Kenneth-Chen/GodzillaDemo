@@ -34,6 +34,9 @@ public class FaceLaser : MonoBehaviour {
 				{
 					nextFireTime = Time.time + defaultDelayTime; 
 				}
+				if(InputManager.GetAction("Use")) {
+					actuate();
+				}
 				// if it's been long enough, actuate
 				if(autoSelectEnabled && Time.time > nextFireTime)
 				{
@@ -46,13 +49,6 @@ public class FaceLaser : MonoBehaviour {
 		} else {
 			// if we lose focus, reset the timer
 			reset();
-		}
-	}
-
-	void OnGUI () {
-		Event e = Event.current;
-		if (e.isKey && e.keyCode == KeyCode.E) {
-			actuate();
 		}
 	}
 

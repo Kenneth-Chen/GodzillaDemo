@@ -5,7 +5,7 @@ public class Flammable : Highlightable {
 	public int burnTimeSeconds = 10;
 
 	public override string getTitle() {
-		return ItemManager.CanPlayerSetThingsOnFire () ? "Set on fire (E)" : base.title ;
+		return ItemManager.CanPlayerSetThingsOnFire () ? "Set on fire" : base.title ;
 	}
 
 	public override bool doAction() {

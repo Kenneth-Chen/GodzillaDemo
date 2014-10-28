@@ -23,7 +23,6 @@ public class GrowthPowerupActivated : MonoBehaviour {
 	}
 	
 	void Update () {
-		Debug.Log (currentFrame);
 		++currentFrame;
 		if(currentFrame > frames) {
 			diveFPSController.max_speed = 0.24f;
@@ -32,6 +31,8 @@ public class GrowthPowerupActivated : MonoBehaviour {
 			diveFPSController.gravity = -0.41f;
 			diveFPSController.jumpspeed = 0.28f;
 			Effects.SetGlobalFogStartDistance(3.0f);
+			Grid.leftCameraObject.transform.localPosition = new Vector3(-0.3f, 0.2f, 0.2f);
+			Grid.rightCameraObject.transform.localPosition = new Vector3(0.3f, 0.2f, 0.2f);
 			Grid.rightHandItemSlot.transform.localPosition = new Vector3(2.5f, 0.0f, 5.0f);
 			Destroy(this);
 			return;

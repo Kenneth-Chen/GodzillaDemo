@@ -8,6 +8,7 @@ public class GrowthPowerup : MonoBehaviour {
 			cc.gameObject.AddComponent<GrowthPowerupActivated>();
 			cc.gameObject.AddComponent<GiantFootsteps>();
 			cc.gameObject.AddComponent<BoulderWeapon>();
+			cc.gameObject.AddComponent<FlameBreath>();
 			Destroy (this.gameObject);
 		}
 	}
