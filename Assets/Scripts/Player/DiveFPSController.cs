@@ -67,13 +67,6 @@ public class DiveFPSController : MonoBehaviour {
 		}
 	}
 
-	void OnGUI () {
-		Event e = Event.current;
-		if(e.isKey && e.keyCode == KeyCode.Escape) {
-			//StartCoroutine(Die ());
-		}
-	}
-
 	float fadeduration= 2.0f; // fade duration in seconds
 	
 	IEnumerator Die() {
@@ -104,7 +97,7 @@ public class DiveFPSController : MonoBehaviour {
 	}
 
 	void Update () {
-		if (velocity.y < fallkillspeed || this.transform.position.y < killPositionLowerBound) {
+		if (velocity.y < fallkillspeed || this.transform.position.y < killPositionLowerBound || InputManager.GetAction("Suicide")) {
 			//StartCoroutine(Die());
 			return;
 		}

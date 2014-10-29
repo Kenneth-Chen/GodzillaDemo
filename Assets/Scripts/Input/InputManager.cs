@@ -27,11 +27,16 @@ public class InputManager : MonoBehaviour {
 		case "Jump":
 			return checkAlternateButton(action, "Y");
 		case "Use":
+		case "Pickup":
 			return checkKeyAndButton(KeyCode.E, "A");
+		case "Drop":
+			return checkKeyAndButton(KeyCode.Z, "LB");
 		case "PrimaryAttack":
 			return checkKeyAndButton(KeyCode.F, "RightTrigger");
 		case "SecondaryAttack":
 			return checkKeyAndButton(KeyCode.G, "LeftTrigger");
+		case "Suicide":
+			return KeyCode.Escape == lastKeyHit;
 		default:
 			break;
 		}
