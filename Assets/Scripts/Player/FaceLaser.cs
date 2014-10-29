@@ -10,6 +10,7 @@ public class FaceLaser : MonoBehaviour {
 	private double nextFireTime = 0.0;
 	private GameObject target_object;
 	private Highlightable target_script;
+	// should we select the item after a few seconds of delay?
 	private bool autoSelectEnabled = false;
 
 	void Start ()

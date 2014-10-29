@@ -1,40 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 // extend Input to handle moga controller
 using Input = Moga_Input;
 
 public class InputManager : MonoBehaviour {
 
 	// if this is on, we will write all inputs to the console every frame
-#if UNITY_EDITOR
-	private const bool debug = false;
-#else
-	private const bool debug = true;
-#endif
+	private static bool debug;
+	// note that turning on debugging for moga consumes moga button events
+	private static bool debugMoga = false;
 	// input axes need to exceed this value in order to be registered
 	private const float epsilon = 0.005f;
-
 	private static KeyCode lastKeyHit = KeyCode.None;
-
-	// for moga
-	private KeyCode		aButtonKeyCode,
-						bButtonKeyCode,
-						xButtonKeyCode,
-						yButtonKeyCode;
+	private static Moga_ControllerManager mogaManagerScript;
 
 	public static bool GetAction(string action) {
 		switch(action) {
 		case "Jump":
-			return checkAlternateButton(action, "Y");
+			return checkAlternateButton(action, "Y", mogaManagerScript.p1ButtonY);
 		case "Use":
 		case "Pickup":
-			return checkKeyAndButton(KeyCode.E, "A");
+			return checkKeyAndButton(KeyCode.E, "A", mogaManagerScript.p1ButtonA);
 		case "Drop":
-			return checkKeyAndButton(KeyCode.Z, "LB");
+			return checkKeyAndButton(KeyCode.Z, "LB", mogaManagerScript.p1ButtonL1);
 		case "PrimaryAttack":
-			return checkKeyAndButton(KeyCode.F, "RightTrigger");
+			return checkKeyAndButton(KeyCode.F, "RightTrigger", mogaManagerScript.p1ButtonR2);
 		case "SecondaryAttack":
-			return checkKeyAndButton(KeyCode.G, "LeftTrigger");
+			return checkKeyAndButton(KeyCode.G, "LeftTrigger", mogaManagerScript.p1ButtonL2);
 		case "Suicide":
 			return KeyCode.Escape == lastKeyHit;
 		default:
@@ -46,9 +39,9 @@ public class InputManager : MonoBehaviour {
 	public static float GetAxis(string axis) {
 		switch(axis) {
 		case "Horizontal":
-			return checkAlternateAxis(axis, "LeftAnalogueHorizontal");
+			return checkAxes(new Dictionary<string, bool>() {{axis, false}, {"LeftAnalogueHorizontal", false}});
 		case "Vertical":
-			return checkAlternateAxis(axis, "LeftAnalogueVertical");
+			return checkAxes(new Dictionary<string, bool>() {{axis, false}, {"LeftAnalogueVertical", false}});
 		default:
 			break;
 		}
@@ -57,50 +50,51 @@ public class InputManager : MonoBehaviour {
 
 	public static void KeyHit(KeyCode keyCode) {
 		InputManager.lastKeyHit = keyCode;
+		if(debug) {
+			Debug.Log("key: " + keyCode);
+		}
 	}
 
-	private static bool checkAlternateButton(string button, string altButton) {
+	private static bool checkAlternateButton(string button, string altButton, KeyCode mogaKey) {
 		if(Input.GetButton(altButton))
+			return true;
+		if(Input.GetKeyDown(mogaKey))
 			return true;
 		return Input.GetButton (button);
 	}
 
-	private static bool checkKeyAndButton(KeyCode keyCode, string button) {
+	private static bool checkKeyAndButton(KeyCode keyCode, string button, KeyCode mogaKey) {
 		if(Input.GetButton(button))
+			return true;
+		if(Input.GetKeyDown(mogaKey))
 			return true;
 		return keyCode == lastKeyHit;
 	}
 
-	private static float checkAlternateAxis(string axis, string altAxis) {
-		return checkAlternateAxis (axis, altAxis, false);
-	}
-
-	private static float checkAlternateAxis(string axis, string altAxis, bool invertAltAxis) {
-		float result = Input.GetAxis (altAxis);
-		if(result > epsilon || result < -epsilon) {
-			return invertAltAxis ? -result : result;
+	// dictionary of axes: name of axis -> whether or not to invert this axis
+	private static float checkAxes(Dictionary<string, bool> axes) {
+		foreach(KeyValuePair<string, bool> entry in axes) {
+			float result = Input.GetAxis (entry.Key);
+			if(result > epsilon || result < -epsilon) {
+				return entry.Value ? -result : result;
+			}
 		}
-		return Input.GetAxis (axis);
+		return 0.0f;
 	}
 
 	void Start() {
-		// If it exists..
+		#if UNITY_EDITOR
+		debug = false;
+		#else
+		debug = Debug.isDebugBuild;
+		#endif
 		if (Grid.mogaManagerObject != null)
 		{
 			// Check the Moga Manager Script is correctly attached to the Moga  Manager Game Object
-			Moga_ControllerManager mogaManagerScript = Grid.mogaManagerObject.GetComponent<Moga_ControllerManager>();
-			
-			// If it is attached...
+			mogaManagerScript = Grid.mogaManagerObject.GetComponent<Moga_ControllerManager>();
 			if (mogaManagerScript != null)
 			{
-				// Register MOGA Controller
-				Input.RegisterMogaController();
-				
-				// Get our mapped KeyCode Values and assign them.
-				aButtonKeyCode = mogaManagerScript.p1ButtonA;
-				bButtonKeyCode = mogaManagerScript.p1ButtonB;
-				xButtonKeyCode = mogaManagerScript.p1ButtonX;
-				yButtonKeyCode = mogaManagerScript.p1ButtonY;				
+				Input.RegisterMogaController();			
 			}
 		}
 	}
@@ -113,10 +107,10 @@ public class InputManager : MonoBehaviour {
 	}
 
 	void LateUpdate() {
-		lastKeyHit = KeyCode.None;
 		if(debug) {
 			DebugInput();
 		}
+		lastKeyHit = KeyCode.None;
 	}
 
 	void DebugInput() {
@@ -155,6 +149,39 @@ public class InputManager : MonoBehaviour {
 			float result = Input.GetAxis(axis);
 			if(result > epsilon || result < -epsilon) {
 				Debug.Log(axis + ": " + result);
+			}
+		}
+		if(debugMoga) {
+			KeyCode[] joystickKeys = new KeyCode[] {
+				mogaManagerScript.p1ButtonA,
+				mogaManagerScript.p1ButtonB,
+				mogaManagerScript.p1ButtonX,
+				mogaManagerScript.p1ButtonY,
+				mogaManagerScript.p1ButtonL1,
+				mogaManagerScript.p1ButtonR1,
+				mogaManagerScript.p1ButtonL2,
+				mogaManagerScript.p1ButtonR2,
+				mogaManagerScript.p1ButtonStart,
+				mogaManagerScript.p1ButtonSelect,
+				mogaManagerScript.p1ButtonDPadLeft,
+				mogaManagerScript.p1ButtonDPadRight,
+				mogaManagerScript.p1ButtonDPadUp,
+				mogaManagerScript.p1ButtonDPadDown
+			};
+			foreach(KeyCode keyCode in joystickKeys) {
+				if(Input.GetKeyDown(keyCode)) {
+					Debug.Log (keyCode);
+				}
+			}
+			string[] mogaAxes = new string[] {
+				mogaManagerScript.p1AxisLookHorizontal,
+				mogaManagerScript.p1AxisLookVertical
+			};
+			foreach(string axis in mogaAxes) {
+				float result = Input.GetAxis(axis);
+				if(result > epsilon || result < -epsilon) {
+					Debug.Log(axis + ": " + result);
+				}
 			}
 		}
 	}
