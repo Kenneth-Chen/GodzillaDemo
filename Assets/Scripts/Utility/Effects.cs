@@ -54,7 +54,7 @@ public class Effects : Singleton<Effects> {
 		if(objs.Length > 0) {
 			if(objs[0] != null) {
 				GameObject explosion = (GameObject)Instantiate(Grid.explosionPrefab, objs[0].transform.position, objs[0].transform.rotation);
-				Destroy (explosion, 5);
+				Destroy (explosion, 10);
 			}
 			foreach(GameObject obj in objs) {
 				if(obj == null) {

@@ -19,8 +19,8 @@ public class FaceLaser : MonoBehaviour {
 
 	void Update ()
 	{
-		RaycastHit hit;		
-		if (Physics.Raycast(gunBarrel.transform.position, gunBarrel.transform.forward, out hit))
+		RaycastHit hit;
+		if (Physics.Raycast(gunBarrel.transform.position, gunBarrel.transform.forward, out hit, 12.0f))
 		{
 			target_object = hit.collider.gameObject;
 			while(target_object.transform.parent != null) {
