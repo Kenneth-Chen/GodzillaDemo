@@ -35,7 +35,7 @@ public class RotateCube : MonoBehaviour {
 			{
 				// Register MOGA Controller
 				Input.RegisterMogaController();
-								
+
 				// Get our mapped KeyCode Values and assign them.
 				aButtonKeyCode = mogaManagerScript.p1ButtonA;
 				bButtonKeyCode = mogaManagerScript.p1ButtonB;

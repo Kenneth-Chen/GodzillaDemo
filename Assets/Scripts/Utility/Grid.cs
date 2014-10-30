@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using System;
 
 static class Grid
 {
-	public static Object explosionPrefab;
-	public static Object flamesPrefab;
-	public static Object boulderPrefab;
+	public static UnityEngine.Object explosionPrefab;
+	public static UnityEngine.Object flamesPrefab;
+	public static UnityEngine.Object boulderPrefab;
+
 	public static GameObject playerObject;
 	public static DiveFPSController playerComponent;
 	public static GameObject mogaManagerObject;
@@ -13,6 +15,7 @@ static class Grid
 	public static GameObject rightCameraObject;
 	public static GameObject rightHandItemSlot;
 	public static GameObject fireBreath;
+	public static GUIText facelaserText;
 
 	static Grid()
 	{
@@ -23,23 +26,26 @@ static class Grid
 	}
 
 	public static void LoadAllGameObjects() {
+		GameObject o;
 		mogaManagerObject = SafeFind ("/MogaControllerManager");
 		playerObject = SafeFind ("/Player");
 		cameraObject = SafeFind ("/Player/Dive_Camera");
 		leftCameraObject = SafeFind ("/Player/Dive_Camera/Camera_left");
 		rightCameraObject = SafeFind ("/Player/Dive_Camera/Camera_right");
-		playerComponent = (DiveFPSController)SafeComponent (playerObject, "DiveFPSController");
+		playerComponent = SafeComponent<DiveFPSController> (playerObject, "DiveFPSController");
 		rightHandItemSlot = SafeFind ("/Player/Dive_Camera/RightHandItemSlot");
 		fireBreath = SafeFind ("/Player/Dive_Camera/FireBreath");
 		// todo: fix so that we can find inactive objects
 		if(fireBreath != null) {
 			fireBreath.SetActive (false);
 		}
+		o = SafeFind ("/FaceLaserText");
+		facelaserText = SafeComponent<GUIText> (o, "GUIText");
 	}
 
-	private static Object LoadPrefab(string s)
+	private static UnityEngine.Object LoadPrefab(string s)
 	{
-		Object o = Resources.Load (s);
+		UnityEngine.Object o = Resources.Load (s);
 		if ( o == null ) Debug.LogError("Could not find Object " +s);
 		return o;
 	}
@@ -50,17 +56,19 @@ static class Grid
 		if ( g == null ) Debug.LogError("Could not find GameObject " +s);
 		return g;
 	}
-
-	private static Component SafeComponent(GameObject g, string s)
+	
+	private static T SafeComponent<T>(GameObject g, string s)
 	{
 		if(g == null) {
 			Debug.LogError ("Could not find Component " + s + " because GameObject is null");
-			return null;
+			return default(T);
 		}
 		Component c = g.GetComponent(s);
 		if (c == null) {
 			Debug.LogError("Could not find Component " +s);
+			return default(T);
 		}
-		return c;
+		if (c.GetType() != typeof(T)) Debug.LogError ("Type mismatch when finding Component " + s + ": expected " + typeof(T).ToString() + " but got " + c.GetType());
+		return (T)Convert.ChangeType(c, typeof(T));
 	}
 }

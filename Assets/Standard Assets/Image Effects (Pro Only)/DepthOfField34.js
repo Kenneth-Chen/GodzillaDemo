@@ -3,7 +3,7 @@
 
 @script ExecuteInEditMode
 @script RequireComponent (Camera)
-@script AddComponentMenu ("Image Effects/Camera/Depth of Field (3.4)") 
+@script AddComponentMenu ("Image Effects/Depth of Field (3.4)") 
 
 enum Dof34QualitySetting {
 	OnlyBackground = 1,
@@ -105,6 +105,13 @@ class DepthOfField34 extends PostEffectsBase {
 
 	function OnDisable () {
 		Quads.Cleanup ();	
+		
+		if (dofBlurMaterial)
+		    DestroyImmediate(dofBlurMaterial);
+		if (dofMaterial)
+		    DestroyImmediate(dofMaterial);
+		if (bokehMaterial)
+		    DestroyImmediate(bokehMaterial);		
 	}
 
 	function OnEnable() {

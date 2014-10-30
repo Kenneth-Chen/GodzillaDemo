@@ -5,7 +5,6 @@ using System.Collections;
 public class FaceLaser : MonoBehaviour {
 	
 	public GameObject gunBarrel;
-	public GUIText titleTextObject;
 	private double defaultDelayTime = 3.0;
 	private double nextFireTime = 0.0;
 	private GameObject target_object;
@@ -66,12 +65,12 @@ public class FaceLaser : MonoBehaviour {
 		if (vis == true)
 		{
 			//show title in gui text
-			titleTextObject.text = target_script.getTitle();
+			Grid.facelaserText.text = target_script.getTitle();
 			if(target_script != null) {
 				target_script.highlight(true);
 			}
 		} else {
-			titleTextObject.text = "";
+			Grid.facelaserText.text = "";
 			if(target_script != null) {
 				target_script.highlight(false);
 			}
