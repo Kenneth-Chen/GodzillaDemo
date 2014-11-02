@@ -5,19 +5,18 @@ public class BoulderCollision : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision) {
 		GameObject obj = collision.collider.gameObject;
-		if(obj.tag != "Terrain" && obj.tag != "Player" && obj.tag != "Flames" && obj.tag != "Portal"
-		   && obj.GetComponent<TerrainCollider>() == null) {
-			if(obj.transform.parent == null) {
-				MakeRigid(obj);
-			} else {
+		if(IsValidTarget(obj)) {
+			if(obj.transform.parent != null && IsValidTarget(obj.transform.parent.gameObject)) {
 				GameObject parent = obj.transform.parent.gameObject;
 				foreach(Transform childTransform in parent.transform) {
 					GameObject child = childTransform.gameObject;
-					if(child.tag == "Flames") {
+					if(!IsValidTarget(child)) {
 						continue;
 					}
 					MakeRigid(child);
 				}
+			} else {
+				MakeRigid(obj);
 			}
 			Vector3 fwd = transform.TransformDirection (Vector3.forward);
 			float speed = this.rigidbody.velocity.magnitude;
@@ -35,6 +34,11 @@ public class BoulderCollision : MonoBehaviour {
 
 			audio.Play();
 		}
+	}
+
+	bool IsValidTarget(GameObject obj) {
+		return obj.tag != "Terrain" && obj.tag != "Player" && obj.tag != "Flames" && obj.tag != "Portal"
+			&& obj.GetComponent<TerrainCollider> () == null;
 	}
 
 	void MakeRigid(GameObject obj) {

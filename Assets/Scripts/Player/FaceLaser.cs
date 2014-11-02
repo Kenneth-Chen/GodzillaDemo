@@ -5,41 +5,24 @@ using System.Collections;
 public class FaceLaser : MonoBehaviour {
 	
 	public GameObject gunBarrel;
-	private double defaultDelayTime = 3.0;
+	private double defaultDelayTime = 0.5;
 	private double nextFireTime = 0.0;
 	private GameObject target_object;
 	private Highlightable target_script;
-	// should we select the item after a few seconds of delay?
-	private bool autoSelectEnabled = false;
-
-	void Start ()
-	{
-		//titleTextObject.text = "hello!";
-	}
 
 	void Update ()
 	{
 		RaycastHit hit;
-		if (Physics.Raycast(gunBarrel.transform.position, gunBarrel.transform.forward, out hit, 12.0f))
+		if (Physics.Raycast(gunBarrel.transform.position, gunBarrel.transform.forward, out hit, 8.0f))
 		{
 			target_object = hit.collider.gameObject;
-			while(target_object.transform.parent != null) {
+			while(target_object.transform.parent != null && target_object.transform.parent.gameObject.tag != "Terrain") {
 				target_object = target_object.transform.parent.gameObject;
 			}
 			target_script = target_object.GetComponent<Highlightable>();
 			if(target_script != null) {
 				setHighlighted(true);
-				// if not set, show the box and start timer
-				if(nextFireTime == 0.0)
-				{
-					nextFireTime = Time.time + defaultDelayTime; 
-				}
 				if(InputManager.GetAction("Use")) {
-					actuate();
-				}
-				// if it's been long enough, actuate
-				if(autoSelectEnabled && Time.time > nextFireTime)
-				{
 					actuate();
 				}
 			} else {
@@ -49,6 +32,9 @@ public class FaceLaser : MonoBehaviour {
 		} else {
 			// if we lose focus, reset the timer
 			reset();
+		}
+		if(InputManager.GetAction("ToggleLaser")) {
+			ToggleLaser();
 		}
 	}
 
@@ -77,9 +63,15 @@ public class FaceLaser : MonoBehaviour {
 		}
 	}
 
+	void ToggleLaser() {
+		if(Time.time > nextFireTime) {
+			gunBarrel.renderer.enabled = !gunBarrel.renderer.enabled;
+			nextFireTime = Time.time + defaultDelayTime;
+		}
+	}
+
 	private void reset()
 	{
-		nextFireTime = 0.0;
 		setHighlighted (false);
 	}
 }

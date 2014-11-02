@@ -8,6 +8,7 @@ static class Grid
 	public static UnityEngine.Object boulderPrefab;
 
 	public static GameObject playerObject;
+	public static GameObject playerModel;
 	public static DiveFPSController playerComponent;
 	public static GameObject mogaManagerObject;
 	public static GameObject cameraObject;
@@ -22,13 +23,13 @@ static class Grid
 		explosionPrefab = LoadPrefab("Effects/Explosion");
 		flamesPrefab = LoadPrefab("Effects/Flames");
 		boulderPrefab = LoadPrefab ("Weapons/BoulderWeapon");
-		LoadAllGameObjects ();
 	}
 
 	public static void LoadAllGameObjects() {
 		GameObject o;
 		mogaManagerObject = SafeFind ("/MogaControllerManager");
 		playerObject = SafeFind ("/Player");
+		playerModel = SafeFind ("/Player/PlayerModel");
 		cameraObject = SafeFind ("/Player/Dive_Camera");
 		leftCameraObject = SafeFind ("/Player/Dive_Camera/Camera_left");
 		rightCameraObject = SafeFind ("/Player/Dive_Camera/Camera_right");

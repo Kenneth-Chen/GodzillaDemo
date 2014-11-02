@@ -38,23 +38,21 @@ public class OpenDiveSensor : MonoBehaviour {
 	public float znear=0.1f;
 	public float zfar=10000.0f;
 	
-	
-	
 	private float time_since_last_fullscreen=0;
 	private int is_tablet;
 	
 	AndroidJavaObject mConfig;
 	AndroidJavaObject mWindowManager;
 	
-	
 	private float q0,q1,q2,q3;
 	private float m0,m1,m2;
 	Quaternion rot;
 	private bool show_gyro_error_message=false;
+
+	private Vector3 playerModelOriginalLocalPosition;
 	
 	string errormessage;
-	
-	
+
 	#if UNITY_EDITOR
 	private float sensitivityX = 15F;
 	private float sensitivityY = 15F;
@@ -66,25 +64,18 @@ public class OpenDiveSensor : MonoBehaviour {
 	private float maximumY = 90F;
 	
 	float rotationY = 0F;
-	
-	
-	
-	
+
 	#elif UNITY_ANDROID
 	private static AndroidJavaClass javadivepluginclass;
 	private static AndroidJavaClass javaunityplayerclass;
 	private static AndroidJavaObject currentactivity;
 	private static AndroidJavaObject javadiveplugininstance;
-	
-	
-	
+
 	[DllImport("divesensor")]	private static extern void initialize_sensors();
 	[DllImport("divesensor")]	private static extern int get_q(ref float q0,ref float q1,ref float q2,ref float q3);
 	[DllImport("divesensor")]	private static extern int get_m(ref float m0,ref float m1,ref float m2);
 	[DllImport("divesensor")]	private static extern int get_error();
 	[DllImport("divesensor")]   private static extern void dive_command(string command);
-	
-	
 	
 	#elif UNITY_IPHONE
 	[DllImport("__Internal")]	private static extern void initialize_sensors();
@@ -94,10 +85,8 @@ public class OpenDiveSensor : MonoBehaviour {
 	[DllImport("__Internal")]	private static extern float get_q3();
 	[DllImport("__Internal")]	private static extern void DiveUpdateGyroData();
 	[DllImport("__Internal")]	private static extern int get_q(ref float q0,ref float q1,ref float q2,ref float q3);
-	
-	
-	#endif 	
-	
+
+	#endif
 	
 	public static void divecommand(string command){
 		#if UNITY_EDITOR
@@ -114,8 +103,7 @@ public class OpenDiveSensor : MonoBehaviour {
 		#elif UNITY_ANDROID
 		String answer;
 		answer= javadiveplugininstance.Call<string>("setFullscreen");
-		
-		
+
 		#elif UNITY_IPHONE
 		
 		#endif 	
@@ -123,28 +111,11 @@ public class OpenDiveSensor : MonoBehaviour {
 		return;
 	}
 	
-	
-	
-	
-	
 	void Start () {
-		
-		
-		
-		
-		
-		
-		
 		rot=Quaternion.identity;
 		// Disable screen dimming
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
-		Application.targetFrameRate = 60;
-		
-		
-		
-		
-		
-		
+
 		#if UNITY_EDITOR
 		
 		if (rigidbody)
@@ -159,12 +130,9 @@ public class OpenDiveSensor : MonoBehaviour {
 		javadiveplugininstance = javadivepluginclass.CallStatic<AndroidJavaObject>("instance");
 		object[] args={currentactivity};
 		javadiveplugininstance.Call<string>("set_activity",args);
-		
-		
+
 		initialize_sensors ();
-		
-		
-		
+
 		String answer;
 		answer= javadiveplugininstance.Call<string>("initializeDive");
 		answer= javadiveplugininstance.Call<string>("getDeviceType");
@@ -176,8 +144,7 @@ public class OpenDiveSensor : MonoBehaviour {
 		else{
 			Debug.Log("Dive Phone Mode activated "+answer);
 		}
-		
-		
+
 		answer= javadiveplugininstance.Call<string>("setFullscreen");
 		
 		show_gyro_error_message=true;
@@ -194,8 +161,6 @@ public class OpenDiveSensor : MonoBehaviour {
 			errormessage="ERROR: Dive needs a Gyroscope and your telephone has none, we are trying to go to Accelerometer compatibility mode. Dont expect too much.";
 		}
 		
-		
-		
 		#elif UNITY_IPHONE
 		initialize_sensors();
 		#endif
@@ -205,112 +170,54 @@ public class OpenDiveSensor : MonoBehaviour {
 		
 		if (is_tablet==1)
 		{
-			
 			Debug.Log ("Is tablet, using tabletcorrection");
 			IPDCorrection=tabletcorrection;
 		}
 		else 
 		{
 			IPDCorrection=IPDCorrection;
-			
 		}
 		
-		//setIPDCorrection(IPDCorrection); 
-		
-		
+		//setIPDCorrection(IPDCorrection);
+
+		if(Grid.playerModel != null) {
+			playerModelOriginalLocalPosition = Grid.playerModel.transform.localPosition;
+		}
 	}
-	
-	
 	
 	void Update () {
 		aspectRatio=(Screen.height*2.0f)/Screen.width;
-		setIPDCorrection(IPDCorrection); 
+		//setIPDCorrection(IPDCorrection);
 		
 		//Debug.Log ("Divecamera"+cameraleft.aspect+"1/asp "+1/cameraleft.aspect+" Screen Width/Height "+ aspectRatio);
-		
-		
-		
-		
+
 		#if UNITY_EDITOR
-		
-		
-		#elif UNITY_ANDROID
-		time_since_last_fullscreen+=Time.deltaTime;
-		
-		if (time_since_last_fullscreen >8){
-			setFullscreen ();
-			time_since_last_fullscreen=0;
-			
-			
-		}
-		
-		get_q(ref q0,ref q1,ref q2,ref q3);
-		//get_m(ref m0,ref m1,ref m2);
-		rot.x=-q2;rot.y=q3;rot.z=-q1;rot.w=q0;
-		
-		
-		
-		if (add_rotation_gameobject){
-			transform.rotation =rotation_gameobject.transform.rotation* rot;
-			representation_gameobject.transform.rotation = rotation_gameobject.transform.rotation* rot;
-		}
-		else
-		{
-			transform.rotation = rot;
-			if (is_tablet==1)transform.rotation=rot*Quaternion.AngleAxis(90,Vector3.forward);
-			representation_gameobject.transform.rotation = rot*Quaternion.AngleAxis(90,Vector3.forward);
-			
-		}
-		
-		
-		
-		#elif UNITY_IPHONE
-		DiveUpdateGyroData();
-		get_q(ref q0,ref q1,ref q2,ref q3);
-		rot.x=-q2;
-		rot.y=q3;
-		rot.z=-q1;
-		rot.w=q0;
-		transform.rotation = rot;
-		
-		
-		
-		if (add_rotation_gameobject){
-			transform.rotation =rotation_gameobject.transform.rotation* rot;
-		}
-		else
-		{
-			transform.rotation = rot;
-			if (is_tablet==1)transform.rotation=rot*Quaternion.AngleAxis(90,Vector3.forward);
-			
-		}
-		
-		
-		#endif
-		
-		
-		
-		
-		
-		#if UNITY_EDITOR
-		
 		if (emulateMouseInEditor){
-			
-			
 			if (axes == RotationAxes.MouseXAndY)
 			{
-				float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivityX;
+				float deltaRotX = Input.GetAxis("Mouse X") * sensitivityX;
+				float rotationX = transform.localEulerAngles.y + deltaRotX;
 				
 				rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
 				rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
 				
+				// rotate the camera
 				transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+				
+				// rotate the player model as well
+				// TODO: implement this for Android and iOS also
+				if(Grid.playerModel != null) {
+					Grid.playerModel.transform.RotateAround(Grid.playerObject.transform.position, Vector3.up, deltaRotX);
+				}
+
 				representation_gameobject.transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
 			}
 			else if (axes == RotationAxes.MouseX)
 			{
-				transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
-				representation_gameobject.transform.Rotate(0, Input.GetAxis("Mouse X") * sensitivityX, 0);
+				float deltaRotX = Input.GetAxis("Mouse X") * sensitivityX;
+				transform.Rotate(0, deltaRotX, 0);
+				Grid.playerModel.transform.RotateAround(Grid.playerObject.transform.position, Vector3.up, deltaRotX);
+				representation_gameobject.transform.Rotate(0, deltaRotX, 0);
 			}
 			else
 			{
@@ -320,11 +227,53 @@ public class OpenDiveSensor : MonoBehaviour {
 				transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
 				representation_gameobject.transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
 			}
+			if(Grid.playerModel != null) {
+				Grid.playerModel.transform.localPosition = playerModelOriginalLocalPosition;
+			}
+		}		
+		
+		#elif UNITY_ANDROID
+		time_since_last_fullscreen+=Time.deltaTime;
+		
+		if (time_since_last_fullscreen >8){
+			setFullscreen ();
+			time_since_last_fullscreen=0;
 		}
+		
+		get_q(ref q0,ref q1,ref q2,ref q3);
+		//get_m(ref m0,ref m1,ref m2);
+		rot.x=-q2;rot.y=q3;rot.z=-q1;rot.w=q0;
+
+		if (add_rotation_gameobject){
+			transform.rotation = rotation_gameobject.transform.rotation* rot;
+			representation_gameobject.transform.rotation = rotation_gameobject.transform.rotation* rot;
+		}
+		else
+		{
+			transform.rotation = rot;
+			if (is_tablet==1)transform.rotation=rot*Quaternion.AngleAxis(90,Vector3.forward);
+			representation_gameobject.transform.rotation = rot*Quaternion.AngleAxis(90,Vector3.forward);
+		}
+
+		#elif UNITY_IPHONE
+		DiveUpdateGyroData();
+		get_q(ref q0,ref q1,ref q2,ref q3);
+		rot.x=-q2;
+		rot.y=q3;
+		rot.z=-q1;
+		rot.w=q0;
+		transform.rotation = rot;
+
+		if (add_rotation_gameobject){
+			transform.rotation =rotation_gameobject.transform.rotation* rot;
+		}
+		else
+		{
+			transform.rotation = rot;
+			if (is_tablet==1)transform.rotation=rot*Quaternion.AngleAxis(90,Vector3.forward);
+		}
+
 		#endif
-		
-		
-		
 	}
 	
 	void OnGUI ()
@@ -343,22 +292,14 @@ public class OpenDiveSensor : MonoBehaviour {
 			setIPDCorrection(IPDCorrection);
 		}
 */
-		
-		
 		if (show_gyro_error_message)
 		{
-			
 			if(GUI.Button(new Rect(0,0, Screen.width, Screen.height) , "Error: \n\n No Gyro detected \n \n Touch screen to continue anyway")) {
 				show_gyro_error_message=false;
 			}
 			GUI.DrawTexture(new Rect(Screen.width/2-320, Screen.height/2-240, 640, 480), nogyrotexture, ScaleMode.ScaleToFit, true, 0);
 			return;
-			
 		}
-		
-		
-		
-		
 	}
 	
 	

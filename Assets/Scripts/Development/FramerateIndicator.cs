@@ -12,6 +12,7 @@ public class FramerateIndicator : MonoBehaviour {
 
 	void Start()
 	{
+		Application.targetFrameRate = 500;
 		timeleft = updateInterval;  
 	}
 	

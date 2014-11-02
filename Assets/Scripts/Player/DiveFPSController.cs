@@ -4,10 +4,15 @@ using System.Collections;
 [RequireComponent (typeof(CharacterController))]
 public class DiveFPSController : MonoBehaviour {
 		
-	Vector3 inputMoveDirection;
-	public Vector3 movementDirection {
+	private Vector3 distanceMoved;
+	public Vector3 DistanceMoved {
 		get {
-			return inputMoveDirection;
+			return distanceMoved;
+		}
+	}
+	public float Speed {
+		get {
+			return distanceMoved.sqrMagnitude / (max_speed * max_speed);
 		}
 	}
 	bool inputJump=false;
@@ -98,7 +103,7 @@ public class DiveFPSController : MonoBehaviour {
 
 	void Update () {
 		if (velocity.y < fallkillspeed || this.transform.position.y < killPositionLowerBound || InputManager.GetAction("Suicide")) {
-			//StartCoroutine(Die());
+			StartCoroutine(Die());
 			return;
 		}
 
@@ -125,8 +130,6 @@ public class DiveFPSController : MonoBehaviour {
 			// Multiply the normalized direction vector by the modified length
 			directionVector = directionVector * directionLength;
 		}
-		// Apply the direction to the CharacterMotor
-		inputMoveDirection =  directionVector;
 		inputJump = InputManager.GetAction("Jump");
 
 		grounded = (collisionFlags & CollisionFlags.Below) != 0;
@@ -142,10 +145,10 @@ public class DiveFPSController : MonoBehaviour {
 		}
 
 		if (grounded) {
-			velocity+=inputMoveDirection*acceleration*Time.deltaTime;
+			velocity+=directionVector*acceleration*Time.deltaTime;
 		}
 		else {
-			velocity+=inputMoveDirection*acceleration_air*Time.deltaTime;
+			velocity+=directionVector*acceleration_air*Time.deltaTime;
 		}
 		
 		Vector3 translation = new Vector3(velocity.x,0,velocity.z);
@@ -186,10 +189,14 @@ public class DiveFPSController : MonoBehaviour {
 		
 		//if (!grounded)platformdelta=Vector3.zero;
 
+		Vector3 origPosition = controller.transform.position;
+
 		//MAKE A MOVE!
 		transform.Rotate(0, InputManager.GetAxis ("Horizontal") * rotationSpeed * Time.deltaTime, 0);
 		collisionFlags=controller.Move(yrotation_camera*translation+platformdelta);
-		
+
+		distanceMoved = controller.transform.position - origPosition;
+
 		if ((collisionFlags & CollisionFlags.CollidedAbove) != 0)
 		{
 			if (stopmovingup==false){

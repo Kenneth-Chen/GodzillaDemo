@@ -13,11 +13,12 @@ public class GrowthPowerup : MonoBehaviour {
 				enabled = false;
 				gameObject.GetComponent<ParticleSystem>().enableEmission = false;
 				(gameObject.GetComponent("Halo") as Behaviour).enabled = false;
-				audio.Play ();
+				Destroy (cc.gameObject.GetComponent<ContinuousFootsteps>());
 				cc.gameObject.AddComponent<GrowthPowerupActivated>();
 				cc.gameObject.AddComponent<GiantFootsteps>();
 				cc.gameObject.AddComponent<BoulderWeapon>();
 				cc.gameObject.AddComponent<FlameBreath>();
+				audio.Play ();
 			}
 			Destroy (this.gameObject, 3);
 		}

@@ -9,6 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/utopia.unity
   - enabled: 1
     path: Assets/Scenes/dystopia.unity
+  - enabled: 1
+    path: Assets/Scenes/mainframe.unity
   - enabled: 0
     path: Assets/Scenes/godzilla.unity
   - enabled: 0

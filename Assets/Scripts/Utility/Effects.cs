@@ -37,6 +37,7 @@ public class Effects : Singleton<Effects> {
 				}
 				GameObject flames = (GameObject)Instantiate(Grid.flamesPrefab, flamesPosition, target.transform.rotation);
 				flames.transform.parent = target.transform;
+				flames.transform.localScale = target.transform.localScale;
 				if(destroyInSeconds < int.MaxValue) {
 					Effects.Explode(new GameObject[] {target, flames}, destroyInSeconds);
 				}

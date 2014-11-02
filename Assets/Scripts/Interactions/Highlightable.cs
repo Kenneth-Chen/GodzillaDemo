@@ -23,7 +23,7 @@ public class Highlightable : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(active) {
-			wireFrame_script.ShowLines = true;
+			// wireFrame_script.ShowLines = true;
 			if(renderer != null) {
 				float lerp = Mathf.PingPong (Time.time, lerpDuration) / lerpDuration;
 				renderer.material.color = Color.Lerp (originalColor, HighlightColor, lerp);

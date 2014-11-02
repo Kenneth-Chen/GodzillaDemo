@@ -3,21 +3,21 @@ using System.Collections;
 
 public class GiantFootsteps : MonoBehaviour {
 
-	public int footstepLength = 80;
+	public int footstepLength = 40;
 	private int currentFootstepCount = 0;
+	private AudioSource footstepSound;
 
 	DiveFPSController diveFPSController;
 	void Start () {
 		diveFPSController = this.gameObject.GetComponent<DiveFPSController> ();
-	
+		AudioSource[] aSources = GetComponents<AudioSource>();
+		footstepSound = aSources[1];
 	}
 
 	void LateUpdate () {
-		if (diveFPSController.isGrounded && diveFPSController.movementDirection != Vector3.zero) {
+		if (diveFPSController.isGrounded && diveFPSController.DistanceMoved != Vector3.zero) {
 			if(++currentFootstepCount >= footstepLength) {
 				currentFootstepCount = 0;
-				AudioSource[] aSources = GetComponents<AudioSource>();
-				AudioSource footstepSound = aSources[1];
 				footstepSound.Play();
 			}
 		}

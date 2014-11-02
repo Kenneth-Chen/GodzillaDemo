@@ -6,6 +6,12 @@ public class BoulderWeapon : MonoBehaviour {
 	private float speed = 20.0f;
 	private float currentCooldown = 0.0f;
 	private float cooldown = 3.0f;
+	private AudioSource weaponSound;
+
+	void Start() {
+		AudioSource[] aSources = GetComponents<AudioSource>();
+		weaponSound = aSources[0];
+	}
 
 	void Update() {
 		if(currentCooldown > 0.0f) {
@@ -20,7 +26,7 @@ public class BoulderWeapon : MonoBehaviour {
 				Rigidbody rb = boulder.AddComponent<Rigidbody>();
 				rb.mass = 1.0f;
 				rb.AddForce(fwd * speed, ForceMode.Impulse);
-				audio.Play();
+				weaponSound.Play();
 				Destroy (boulder, 120);
 			} else {
 				currentCooldown = 0.0f;

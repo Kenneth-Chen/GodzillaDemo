@@ -3,15 +3,32 @@ using System.Collections;
 
 public class LoadLevel : MonoBehaviour {
 
+	public enum Level { Utopia=0, Dystopia=1, Mainframe=2 };
+	public Level level;
 	float fadeDuration = 3.0f;
 	bool loading = false;
 
+	void OnControllerColliderHit(ControllerColliderHit hit) {
+		CheckLoadLevel ();
+	}
+
 	void OnTriggerEnter(Collider collider) {
+		CheckLoadLevel ();
+	}
+
+	void CheckLoadLevel() {
 		if(loading) {
 			return;
 		}
 		loading = true;
-		StartCoroutine (LoadDystopia ());
+		IEnumerator levelLoader;
+		StartCoroutine (LoadLevelAsync(level));
+	}
+
+	IEnumerator LoadLevelAsync(Level level) {
+		StartCoroutine (FadeScreen ());
+		AsyncOperation async = Application.LoadLevelAsync((int)level);
+		yield return async;
 	}
 
 	IEnumerator FadeScreen() {
@@ -33,9 +50,4 @@ public class LoadLevel : MonoBehaviour {
 		}
 	}
 
-	IEnumerator LoadDystopia() {
-		StartCoroutine (FadeScreen ());
-		AsyncOperation async = Application.LoadLevelAsync(1);
-		yield return async;
-	}
 }
