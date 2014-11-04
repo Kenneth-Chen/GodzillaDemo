@@ -10,9 +10,20 @@ public class DiveFPSController : MonoBehaviour {
 			return distanceMoved;
 		}
 	}
-	public float Speed {
+	public float SpeedX {
 		get {
-			return new Vector2(distanceMoved.x, distanceMoved.z).sqrMagnitude / (max_speed * max_speed);
+			return distanceMoved.x / max_speed;
+		}
+	}
+	public float SpeedZ {
+		get {
+			return distanceMoved.z / max_speed;
+		}
+	}
+	private bool isJumping = false;
+	public bool IsJumping {
+		get {
+			return isJumping;
 		}
 	}
 	bool inputJump=false;
@@ -138,10 +149,15 @@ public class DiveFPSController : MonoBehaviour {
 			velocity.y=0.1f;
 		}
 		if (inputJump&&grounded){
+			isJumping = true;
 			velocity.y+=jumpspeed;
 			velocity.z*=1.5f;
 
 			grounded=false;
+		}
+
+		if(grounded) {
+			isJumping = false;
 		}
 
 		if (grounded) {
