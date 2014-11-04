@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class LoadLevel : MonoBehaviour {
 
@@ -27,8 +28,24 @@ public class LoadLevel : MonoBehaviour {
 
 	IEnumerator LoadLevelAsync(Level level) {
 		StartCoroutine (FadeScreen ());
-		AsyncOperation async = Application.LoadLevelAsync((int)level);
-		yield return async;
+		Lookup<string, List<LevelSerializer.SaveEntry>> games = LevelSerializer.SavedGames;
+		LevelSerializer.SaveGame (level.ToString () + ";" + Time.time);
+		foreach(KeyValuePair<string, List<LevelSerializer.SaveEntry>> entry in games) {
+			Debug.Log("key: " + entry.Key);
+			
+			List<LevelSerializer.SaveEntry> list = entry.Value;
+			foreach(LevelSerializer.SaveEntry saveEntry in list) {
+				Debug.Log ("name: " + saveEntry.Name);
+				Debug.Log ("level: " + saveEntry.Level);
+				Debug.Log ("data: " + saveEntry.Data);
+				Debug.Log ("when: " + saveEntry.When);
+				LevelSerializer.LoadSavedLevel(saveEntry.Data);
+				break;
+			}
+		}
+		//AsyncOperation async = Application.LoadLevelAsync((int)level);
+		//yield return async;
+		yield return 0;
 	}
 
 	IEnumerator FadeScreen() {

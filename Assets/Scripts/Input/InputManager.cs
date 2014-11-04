@@ -44,6 +44,10 @@ public class InputManager : MonoBehaviour {
 			return checkAxes(new Dictionary<string, bool>() {{axis, false}, {"LeftAnalogueHorizontal", false}});
 		case "Vertical":
 			return checkAxes(new Dictionary<string, bool>() {{axis, false}, {"LeftAnalogueVertical", false}});
+		case "RHorizontal":
+			return checkAxes(new Dictionary<string, bool>() {{"RightAnalogueHorizontal", false}});
+		case "RVertical":
+			return checkAxes(new Dictionary<string, bool>() {{"RightAnalogueVertical", false}});
 		default:
 			break;
 		}
@@ -88,7 +92,7 @@ public class InputManager : MonoBehaviour {
 		#if UNITY_EDITOR
 		debug = false;
 		#else
-		debug = Debug.isDebugBuild;
+		debug = false;
 		#endif
 		if (Grid.mogaManagerObject != null)
 		{

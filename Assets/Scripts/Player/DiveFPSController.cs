@@ -12,7 +12,7 @@ public class DiveFPSController : MonoBehaviour {
 	}
 	public float Speed {
 		get {
-			return distanceMoved.sqrMagnitude / (max_speed * max_speed);
+			return new Vector2(distanceMoved.x, distanceMoved.z).sqrMagnitude / (max_speed * max_speed);
 		}
 	}
 	bool inputJump=false;
@@ -38,7 +38,7 @@ public class DiveFPSController : MonoBehaviour {
 	public float fallkillspeed=-0.38f;
 	public float killPositionLowerBound=-100;
 	public CollisionFlags collisionFlags; 
-	private float rotationSpeed = 45.0f; // rotate speed in degrees/second
+	private float rotationSpeed = 30.0f; // rotate speed in degrees/second
 
 	public GameObject ground_gameobject=null;
 	public Vector3 last_ground_pos;
@@ -111,7 +111,7 @@ public class DiveFPSController : MonoBehaviour {
 		//print("GroundNormal y" +groundNormal.y);
 
 		Vector3 directionVector;
-		directionVector = new Vector3(0, 0, InputManager.GetAxis("Vertical"));
+		directionVector = new Vector3(InputManager.GetAxis("Horizontal"), 0, InputManager.GetAxis("Vertical"));
 
 		if (autowalk==1) directionVector = new Vector3(0,0,1*inhibit_autowalk);
 		if (directionVector != Vector3.zero) {
@@ -191,8 +191,14 @@ public class DiveFPSController : MonoBehaviour {
 
 		Vector3 origPosition = controller.transform.position;
 
+		float epsilon = 0.005f;
+		float inputRotation = InputManager.GetAxis ("RHorizontal");
+//		if(inputRotation > -epsilon && inputRotation < epsilon) {
+//			inputRotation = InputManager.GetAxis ("Horizontal");
+//		}
+
 		//MAKE A MOVE!
-		transform.Rotate(0, InputManager.GetAxis ("Horizontal") * rotationSpeed * Time.deltaTime, 0);
+		transform.Rotate(0, inputRotation * rotationSpeed * Time.deltaTime, 0);
 		collisionFlags=controller.Move(yrotation_camera*translation+platformdelta);
 
 		distanceMoved = controller.transform.position - origPosition;
