@@ -9,6 +9,12 @@ public class FramerateIndicator : MonoBehaviour {
 	private int frames = 0; // Frames drawn over the interval
 	private float timeleft; // Left time for current interval
 	public GUIText guiText;
+	public static float FrameRate {
+		get {
+			return frameRate;
+		}
+	}
+	private static float frameRate = 0;
 
 	void Start()
 	{
@@ -25,8 +31,9 @@ public class FramerateIndicator : MonoBehaviour {
 		// Interval ended - update GUI text and start new interval
 		if( timeleft <= 0.0f )
 		{
+			frameRate = accum/frames;
 			// display two fractional digits (f2 format)
-			string strFps = (accum/frames).ToString("f2");
+			string strFps = frameRate.ToString("f2");
 			Debug.Log ("fps: " + strFps);
 			if(guiText != null) {
 				guiText.text = strFps;
