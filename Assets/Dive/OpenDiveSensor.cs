@@ -200,15 +200,13 @@ public class OpenDiveSensor : MonoBehaviour {
 				
 				rotationY += Input.GetAxis("Mouse Y") * sensitivityY;
 				rotationY = Mathf.Clamp (rotationY, minimumY, maximumY);
-				
-				// rotate the camera
-				transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
-				
-				// rotate the player model as well
+
+				// rotate the camera object along the vertical axis
+				transform.localEulerAngles = new Vector3(-rotationY, 0, 0);
+				// rotate the player object along the horizontal axis
+				Grid.playerObject.transform.RotateAround(Grid.playerObject.transform.position, Vector3.up, deltaRotX);
+
 				// TODO: implement this for Android and iOS also
-				if(Grid.playerModel != null) {
-					Grid.playerModel.transform.RotateAround(Grid.playerObject.transform.position, Vector3.up, deltaRotX);
-				}
 
 				representation_gameobject.transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
 			}
@@ -226,9 +224,6 @@ public class OpenDiveSensor : MonoBehaviour {
 				
 				transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
 				representation_gameobject.transform.localEulerAngles = new Vector3(-rotationY, transform.localEulerAngles.y, 0);
-			}
-			if(Grid.playerModel != null) {
-				Grid.playerModel.transform.localPosition = playerModelOriginalLocalPosition;
 			}
 		}		
 		
@@ -274,6 +269,10 @@ public class OpenDiveSensor : MonoBehaviour {
 		}
 
 		#endif
+		// keep realigning the player model to prevent drift
+		if(Grid.playerModel != null) {
+			Grid.playerModel.transform.localPosition = playerModelOriginalLocalPosition;
+		}
 	}
 	
 	void OnGUI ()
