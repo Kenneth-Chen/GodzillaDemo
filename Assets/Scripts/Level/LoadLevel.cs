@@ -29,7 +29,7 @@ public class LoadLevel : MonoBehaviour {
 	IEnumerator LoadLevelAsync(Level level) {
 		StartCoroutine (FadeScreen ());
 		Lookup<string, List<LevelSerializer.SaveEntry>> games = LevelSerializer.SavedGames;
-		LevelSerializer.SaveGame (level.ToString () + ";" + Time.time);
+//		LevelSerializer.SaveGame (level.ToString () + ";" + Time.time);
 		foreach(KeyValuePair<string, List<LevelSerializer.SaveEntry>> entry in games) {
 			Debug.Log("key: " + entry.Key);
 			
@@ -39,13 +39,13 @@ public class LoadLevel : MonoBehaviour {
 				Debug.Log ("level: " + saveEntry.Level);
 				Debug.Log ("data: " + saveEntry.Data);
 				Debug.Log ("when: " + saveEntry.When);
-				LevelSerializer.LoadSavedLevel(saveEntry.Data);
+//				LevelSerializer.LoadSavedLevel(saveEntry.Data);
 				break;
 			}
 		}
-		//AsyncOperation async = Application.LoadLevelAsync((int)level);
-		//yield return async;
-		yield return 0;
+		AsyncOperation async = Application.LoadLevelAsync((int)level);
+		yield return async;
+//		yield return 0;
 	}
 
 	IEnumerator FadeScreen() {
