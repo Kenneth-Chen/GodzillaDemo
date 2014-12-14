@@ -10,6 +10,7 @@ public class Highlightable : MonoBehaviour {
 	private bool active = false;
 	private Color originalColor;
 	private float lerpDuration = 1.0f;
+	private float rotateAmount = 2.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +29,7 @@ public class Highlightable : MonoBehaviour {
 				float lerp = Mathf.PingPong (Time.time, lerpDuration) / lerpDuration;
 				renderer.material.color = Color.Lerp (originalColor, HighlightColor, lerp);
 			}
+			transform.RotateAround(transform.position, Vector3.up, rotateAmount);
 		}
 		if(!active) {
 			wireFrame_script.ShowLines = false;
