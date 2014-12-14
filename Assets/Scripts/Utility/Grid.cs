@@ -17,6 +17,13 @@ static class Grid
 	public static GameObject rightHandItemSlot;
 	public static GameObject fireBreath;
 	public static GUIText facelaserText;
+	public static GameObject roomObject;
+	public static GameObject ceilingObject;
+	public static GameObject floorObject;
+	public static GameObject utopiaWorld;
+	public static GameObject dystopiaWorld;
+	public static GameObject blackShell;
+	public static GameObject realEstate;
 
 	static Grid()
 	{
@@ -42,6 +49,13 @@ static class Grid
 		}
 		o = SafeFind ("/FaceLaserText");
 		facelaserText = SafeComponent<GUIText> (o, "GUIText");
+		roomObject = SafeFind ("/Room");
+		ceilingObject = SafeFind ("/Room/Ceiling");
+		floorObject = SafeFind ("/Room/Floor");
+		utopiaWorld = SafeFind ("/UtopiaWorld");
+		dystopiaWorld = SafeFind ("/DystopiaWorld");
+		blackShell = SafeFind ("/BlackShell");
+		realEstate = SafeFind ("/RealEstate");
 	}
 
 	private static UnityEngine.Object LoadPrefab(string s)

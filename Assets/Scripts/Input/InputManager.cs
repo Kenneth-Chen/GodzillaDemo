@@ -16,6 +16,7 @@ public class InputManager : MonoBehaviour {
 	private static Moga_ControllerManager mogaManagerScript;
 
 	public static bool GetAction(string action) {
+		// Debug.Log (mogaManagerScript.isControllerConnected ());
 		switch(action) {
 		case "Jump":
 			return checkAlternateButton(action, "Y", mogaManagerScript.p1ButtonY);

@@ -116,7 +116,7 @@ PlayerSettings:
       m_Size: 128
   m_BuildTargetBatching:
   - m_BuildTarget: Android
-    m_StaticBatching: 1
+    m_StaticBatching: 0
     m_DynamicBatching: 1
   webPlayerTemplate: APPLICATION:Default
   m_TemplateCustomTags: {}
@@ -157,6 +157,7 @@ PlayerSettings:
   spritePackerPolicy: 
   scriptingDefineSymbols:
     0: "Y\x01"
+    2: Environment
     4: 
     16: Screaming;Crowd
   metroPackageName: OpenDive_Demo

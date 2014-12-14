@@ -20,9 +20,65 @@ Material:
           m_Texture: {fileID: 2800000, guid: 9a2c1054ef10b5c408fee5ba729dc0e9, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
-    m_Floats: {}
+      data:
+        first:
+          name: _BumpMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DecalTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _permTexture
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _simplexTexture
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _planetRadius
+        second: 16
+      data:
+        first:
+          name: _frequency
+        second: 0
+      data:
+        first:
+          name: _offset
+        second: 1
+      data:
+        first:
+          name: _hpower
+        second: 2
+      data:
+        first:
+          name: _amp
+        second: .5
+      data:
+        first:
+          name: _contribution
+        second: 1
     m_Colors:
       data:
         first:
           name: _Color
         second: {r: .640000045, g: .640000045, b: .640000045, a: 1}
+      data:
+        first:
+          name: _noiseOffset
+        second: {r: 0, g: 0, b: 0, a: 1}

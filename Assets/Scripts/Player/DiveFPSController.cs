@@ -156,6 +156,13 @@ public class DiveFPSController : MonoBehaviour {
 			grounded=false;
 		}
 
+		bool flightEnabled = false;
+		float inputRotation = InputManager.GetAxis ("RHorizontal");
+		float inputFlight = InputManager.GetAxis ("RVertical");
+		if(flightEnabled) {
+			velocity.y += -0.1f * inputFlight * jumpspeed;
+		}
+
 		if(grounded) {
 			isJumping = false;
 		}
@@ -206,12 +213,6 @@ public class DiveFPSController : MonoBehaviour {
 		//if (!grounded)platformdelta=Vector3.zero;
 
 		Vector3 origPosition = controller.transform.position;
-
-		float epsilon = 0.005f;
-		float inputRotation = InputManager.GetAxis ("RHorizontal");
-//		if(inputRotation > -epsilon && inputRotation < epsilon) {
-//			inputRotation = InputManager.GetAxis ("Horizontal");
-//		}
 
 		//MAKE A MOVE!
 		transform.Rotate(0, inputRotation * rotationSpeed * Time.deltaTime, 0);
