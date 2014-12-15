@@ -54,18 +54,19 @@ public class LoadRoom : Highlightable {
 			}
 			beginFade = false;
 		}
-		// transport the target environment to our coordinates
+		// transport the old environment away from our position
 		switch(originalRoom) {
 		case Room.Menu:
+			// enable shadows when we're not in the menu room
 			Grid.leftCameraObject.GetComponent<SSAOEffect>().enabled = true;
 			Grid.rightCameraObject.GetComponent<SSAOEffect>().enabled = true;
 			break;
 		case Room.Utopia:
-			Grid.utopiaWorld.transform.position = new Vector3(64.32498f, -49.72105f, 105.2743f);
+			Grid.utopiaWorld.transform.position = -9999 * Vector3.down;
 			break;
 		case Room.Dystopia:
 			Grid.blackShell.renderer.enabled = false;
-			Grid.dystopiaWorld.transform.position = new Vector3(66.37248f, 0.58784f, 40.3905f);
+			Grid.dystopiaWorld.transform.position = -9999 * Vector3.down;
 			break;
 		case Room.SpaceWorld:
 			break;
@@ -77,9 +78,10 @@ public class LoadRoom : Highlightable {
 			Grid.blackShell.renderer.enabled = false;
 			HideAllWorlds();
 		}
-		// fade out the menu room
+		// move the target environment to our location and fade out the menu room
 		switch(targetRoom) {
 		case Room.Menu:
+			// disable shadows when we're not in the menu room
 			Grid.leftCameraObject.GetComponent<SSAOEffect>().enabled = false;
 			Grid.rightCameraObject.GetComponent<SSAOEffect>().enabled = false;
 			break;
@@ -142,6 +144,7 @@ public class LoadRoom : Highlightable {
 		fading = false;
 	}
 
+	// currently unused
 	IEnumerator DissectMenuRoom() {
 		for(float deltaY = 0.0f; deltaY < dissectSpeed; ) {
 			deltaY += dissectSpeed * Time.deltaTime / dissectDuration;
