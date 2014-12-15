@@ -2,27 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class LoadRoom : Highlightable {
+public class RoomManager : MonoBehaviour {
 	
-	public enum Room { Menu, Utopia, Dystopia, SpaceWorld, RealEstate };
+	public enum Room { Menu=0, Utopia=1, Dystopia=2, SpaceWorld=3, RealEstate=4 };
 	public static Room currentRoom = Room.Menu;
+	private Room highlightedRoom = Room.Utopia;
 	public Material opaqueMaterial, transparentMaterial;
 	public Material utopiaSkybox, spaceSkybox;
-	// deprecated, for use only on objects that trigger room loads when you select them
-	public Room targetRoom;
+
 	float dissectDuration = 1.0f;
 	float dissectSpeed = 0.8f;
 	float bringUpDuration = 1.2f;
+
 	// whether or not we have initiated a room fade, and are in a waiting loop for that to finish
 	private static bool beginFade = false;
 	// whether or not we are currently fading the room from one state to another
 	private static bool fading = false;
 
-	public override bool doAction()
-	{
-		SwitchRoom (this.targetRoom);
-		return true;
-	}
+	private float selectorAnimationDuration = 0.4f;
+	private bool selectorCurrentlyAnimating = false;
 
 	public void SwitchRoom(Room targetRoom) {
 		StartCoroutine (SwitchRoomHelper (targetRoom));
@@ -41,8 +39,14 @@ public class LoadRoom : Highlightable {
 		case Room.Menu:
 			break;
 		case Room.Utopia:
+			StartCoroutine(FadeMenuRoom(true));
+			break;
 		case Room.Dystopia:
+			StartCoroutine(FadeMenuRoom(true));
+			break;
 		case Room.RealEstate:
+			StartCoroutine(FadeMenuRoom(true));
+			break;
 		case Room.SpaceWorld:
 			StartCoroutine(FadeMenuRoom(true));
 			break;
@@ -87,7 +91,6 @@ public class LoadRoom : Highlightable {
 			break;
 		case Room.Utopia:
 			Grid.utopiaWorld.transform.position = new Vector3(69.76709f, -21.1427f, 103.3317f);
-			Debug.Log (utopiaSkybox);
 			RenderSettings.skybox = utopiaSkybox;
 			StartCoroutine(FadeMenuRoom(false));
 //			StartCoroutine (MoveRoom (Grid.utopiaWorld, new Vector3(64.32498f, -49.72105f, 105.2743f), new Vector3(64.32498f, -19.72105f, 105.2743f), hideAllWorlds));
@@ -180,5 +183,49 @@ public class LoadRoom : Highlightable {
 		if(hideAllWorlds) {
 			HideAllWorlds();
 		}
+	}
+	
+	void Update () {
+		bool updateMonitors = false;
+		if(InputManager.GetAction("CursorLeft")) {
+			if((int)highlightedRoom <= 1 || selectorCurrentlyAnimating) {
+				return;
+			}
+			updateMonitors = true;
+			highlightedRoom--;
+			StartCoroutine(AnimateMovement(2.0f * Vector3.back));
+		}
+		else if(InputManager.GetAction("CursorRight")) {
+			if((int)highlightedRoom >= 4 || selectorCurrentlyAnimating) {
+				return;
+			}
+			updateMonitors = true;
+			highlightedRoom++;
+			StartCoroutine(AnimateMovement(2.0f * Vector3.forward));
+		} else if(InputManager.GetAction("Use")) {
+			SwitchRoom(highlightedRoom);
+		}
+		if(updateMonitors) {
+			UpdateMonitors (highlightedRoom);
+		}
+	}
+	
+	void UpdateMonitors(Room room) {
+		switch(room) {
+
+		}
+	}
+	
+	IEnumerator AnimateMovement(Vector3 delta) {
+		selectorCurrentlyAnimating = true;
+		Vector3 initPosition = transform.position;
+		Vector3 finalPosition = initPosition + delta;
+		for(float lerp = 0.0f; lerp < 1.0f; ) {
+			lerp += Time.deltaTime / selectorAnimationDuration;
+			transform.position = Vector3.Lerp(transform.position, finalPosition, lerp);
+			yield return 0;
+		}
+		transform.position = finalPosition;
+		selectorCurrentlyAnimating = false;
 	}
 }

@@ -3802,14 +3802,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4925740e143414c079fe663e8f623cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: Utopia World
-  destinationNumber: 0
-  HighlightColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedRoom: 1
   opaqueMaterial: {fileID: 0}
   transparentMaterial: {fileID: 0}
   utopiaSkybox: {fileID: 0}
   spaceSkybox: {fileID: 0}
-  targetRoom: 1
 --- !u!23 &312613549
 Renderer:
   m_ObjectHideFlags: 0
@@ -12415,14 +12412,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4925740e143414c079fe663e8f623cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: Selector
-  destinationNumber: 0
-  HighlightColor: {r: 0, g: 0, b: 1, a: 1}
+  highlightedRoom: 1
   opaqueMaterial: {fileID: 2100000, guid: 76f1eaa3a03b84e138a6b7ef5937a7ad, type: 2}
   transparentMaterial: {fileID: 2100000, guid: c81d46390a65e4de9b06bfa7c2b962c9, type: 2}
   utopiaSkybox: {fileID: 2100000, guid: 3a88e76fdf52c4eaa9470c9d8ed52147, type: 2}
   spaceSkybox: {fileID: 2100000, guid: f476db7eace5a1f4e8131a9a900afc3a, type: 2}
-  targetRoom: 0
 --- !u!1 &1282255798
 GameObject:
   m_ObjectHideFlags: 0
@@ -12977,14 +12971,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4925740e143414c079fe663e8f623cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: Room
-  destinationNumber: 0
-  HighlightColor: {r: 0, g: 0, b: 0, a: 1}
+  highlightedRoom: 1
   opaqueMaterial: {fileID: 0}
   transparentMaterial: {fileID: 0}
   utopiaSkybox: {fileID: 0}
   spaceSkybox: {fileID: 0}
-  targetRoom: 0
 --- !u!1 &1377182963
 GameObject:
   m_ObjectHideFlags: 0
@@ -18321,7 +18312,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1783386296}
   m_LocalRotation: {x: 0, y: .30070582, z: 0, w: .953716934}
-  m_LocalPosition: {x: -126.970497, y: 53.1047592, z: -130.524429}
+  m_LocalPosition: {x: -127.125961, y: 53.1047592, z: -130.524429}
   m_LocalScale: {x: .5, y: 3.09750009, z: 5.50665998}
   m_Children:
   - {fileID: 1106059850}
@@ -19537,14 +19528,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4925740e143414c079fe663e8f623cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: Spaceship
-  destinationNumber: 0
-  HighlightColor: {r: 0, g: 0, b: 1, a: 1}
+  highlightedRoom: 1
   opaqueMaterial: {fileID: 0}
   transparentMaterial: {fileID: 0}
   utopiaSkybox: {fileID: 0}
   spaceSkybox: {fileID: 0}
-  targetRoom: 2
 --- !u!65 &1919160099
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19641,14 +19629,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4925740e143414c079fe663e8f623cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: Space
-  destinationNumber: 0
-  HighlightColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedRoom: 1
   opaqueMaterial: {fileID: 0}
   transparentMaterial: {fileID: 0}
   utopiaSkybox: {fileID: 0}
   spaceSkybox: {fileID: 0}
-  targetRoom: 3
 --- !u!23 &1926307731
 Renderer:
   m_ObjectHideFlags: 0
@@ -19844,7 +19829,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1946868138}
   m_LocalRotation: {x: 0, y: -.30070582, z: 0, w: .953716934}
-  m_LocalPosition: {x: -126.970497, y: 53.1047592, z: -118.524429}
+  m_LocalPosition: {x: -127.125961, y: 53.1047592, z: -118.524429}
   m_LocalScale: {x: .5, y: 3.09750009, z: 5.5}
   m_Children:
   - {fileID: 813799457}
@@ -21302,14 +21287,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4925740e143414c079fe663e8f623cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: Real Estate Browser
-  destinationNumber: 0
-  HighlightColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightedRoom: 1
   opaqueMaterial: {fileID: 0}
   transparentMaterial: {fileID: 0}
   utopiaSkybox: {fileID: 0}
   spaceSkybox: {fileID: 0}
-  targetRoom: 4
 --- !u!1 &2092723230
 GameObject:
   m_ObjectHideFlags: 0
