@@ -1,0 +1,181 @@
+fileFormatVersion: 2
+guid: 5f07a34f419c944e5bc1879e3b9b4b2d
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: 'Armonia - '
+    100002: Armonia -0
+    100004: Armonia -1
+    100006: Armonia -2
+    100008: Armonia -3
+    100010: Armonia -4
+    100012: Armonia -5
+    100014: Armonia -6
+    100016: Armonia -7
+    100018: Armonia -8
+    100020: Armonia -9
+    100022: Armonia 10
+    100024: Armonia 11
+    100026: Armonia 12
+    100028: Armonia 13
+    100030: Armonia 14
+    100032: Armonia 15
+    100034: Armonia 16
+    100036: Armonia 17
+    100038: Armonia 18
+    100040: Armonia 19
+    100042: Armonia 20
+    100044: Armonia 21
+    100046: Armonia 22
+    100048: Armonia 23
+    100050: Armonia 24
+    100052: Armonia 25
+    100054: //RootNode
+    400000: 'Armonia - '
+    400002: Armonia -0
+    400004: Armonia -1
+    400006: Armonia -2
+    400008: Armonia -3
+    400010: Armonia -4
+    400012: Armonia -5
+    400014: Armonia -6
+    400016: Armonia -7
+    400018: Armonia -8
+    400020: Armonia -9
+    400022: Armonia 10
+    400024: Armonia 11
+    400026: Armonia 12
+    400028: Armonia 13
+    400030: Armonia 14
+    400032: Armonia 15
+    400034: Armonia 16
+    400036: Armonia 17
+    400038: Armonia 18
+    400040: Armonia 19
+    400042: Armonia 20
+    400044: Armonia 21
+    400046: Armonia 22
+    400048: Armonia 23
+    400050: Armonia 24
+    400052: Armonia 25
+    400054: //RootNode
+    2300000: 'Armonia - '
+    2300002: Armonia -0
+    2300004: Armonia -1
+    2300006: Armonia -2
+    2300008: Armonia -3
+    2300010: Armonia -4
+    2300012: Armonia -5
+    2300014: Armonia -6
+    2300016: Armonia -7
+    2300018: Armonia -8
+    2300020: Armonia -9
+    2300022: Armonia 10
+    2300024: Armonia 11
+    2300026: Armonia 12
+    2300028: Armonia 13
+    2300030: Armonia 14
+    2300032: Armonia 15
+    2300034: Armonia 16
+    2300036: Armonia 17
+    2300038: Armonia 18
+    2300040: Armonia 19
+    2300042: Armonia 20
+    2300044: Armonia 21
+    2300046: Armonia 22
+    2300048: Armonia 23
+    2300050: Armonia 24
+    2300052: Armonia 25
+    3300000: 'Armonia - '
+    3300002: Armonia -0
+    3300004: Armonia -1
+    3300006: Armonia -2
+    3300008: Armonia -3
+    3300010: Armonia -4
+    3300012: Armonia -5
+    3300014: Armonia -6
+    3300016: Armonia -7
+    3300018: Armonia -8
+    3300020: Armonia -9
+    3300022: Armonia 10
+    3300024: Armonia 11
+    3300026: Armonia 12
+    3300028: Armonia 13
+    3300030: Armonia 14
+    3300032: Armonia 15
+    3300034: Armonia 16
+    3300036: Armonia 17
+    3300038: Armonia 18
+    3300040: Armonia 19
+    3300042: Armonia 20
+    3300044: Armonia 21
+    3300046: Armonia 22
+    3300048: Armonia 23
+    3300050: Armonia 24
+    3300052: Armonia 25
+    4300000: 'Armonia - '
+    4300002: Armonia -0
+    4300004: Armonia -1
+    4300006: Armonia -3
+    4300008: Armonia -4
+    4300010: Armonia -5
+    4300012: Armonia -7
+    4300014: Armonia -8
+    4300016: Armonia 10
+    4300018: Armonia 11
+    4300020: Armonia 12
+    4300022: Armonia 13
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .100000001
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 

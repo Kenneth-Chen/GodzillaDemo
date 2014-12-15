@@ -9,10 +9,13 @@ public class RoomManager : MonoBehaviour {
 	private Room highlightedRoom = Room.Utopia;
 	public Material opaqueMaterial, transparentMaterial;
 	public Material utopiaSkybox, spaceSkybox;
+	private bool needToSwitchBackToMenu = false;
 
-	float dissectDuration = 1.0f;
+	float fadeDuration = 1.0f;
 	float dissectSpeed = 0.8f;
 	float bringUpDuration = 1.2f;
+
+	private bool currentlySwitchingRooms = false;
 
 	// whether or not we have initiated a room fade, and are in a waiting loop for that to finish
 	private static bool beginFade = false;
@@ -22,15 +25,24 @@ public class RoomManager : MonoBehaviour {
 	private float selectorAnimationDuration = 0.4f;
 	private bool selectorCurrentlyAnimating = false;
 
+	private GameObject activeMonitorSet, bufferMonitorSet;
+	private static Color defaultMonitorColor = new Color(101.0f/255.0f, 191.0f/255.0f, 255.0f/255.0f, 0.0f/255.0f);
+
+	void Start() {
+		activeMonitorSet = Grid.monitorSetA;
+		bufferMonitorSet = Grid.monitorSetB;
+	}
+
 	public void SwitchRoom(Room targetRoom) {
 		StartCoroutine (SwitchRoomHelper (targetRoom));
 	}
-
+	
 	IEnumerator SwitchRoomHelper(Room targetRoom)
 	{
-		if(currentRoom == targetRoom) {
+		if(currentRoom == targetRoom || currentlySwitchingRooms) {
 			yield break;
 		}
+		currentlySwitchingRooms = true;
 		Room originalRoom = currentRoom;
 		currentRoom = targetRoom;
 		bool hideAllWorlds = targetRoom == Room.SpaceWorld || targetRoom == Room.RealEstate;
@@ -69,6 +81,7 @@ public class RoomManager : MonoBehaviour {
 			Grid.utopiaWorld.transform.position = -9999 * Vector3.down;
 			break;
 		case Room.Dystopia:
+			Grid.dystopiaWorldLight.GetComponent<Light>().enabled = false;
 			Grid.blackShell.renderer.enabled = false;
 			Grid.dystopiaWorld.transform.position = -9999 * Vector3.down;
 			break;
@@ -88,6 +101,7 @@ public class RoomManager : MonoBehaviour {
 			// disable shadows when we're not in the menu room
 			Grid.leftCameraObject.GetComponent<SSAOEffect>().enabled = false;
 			Grid.rightCameraObject.GetComponent<SSAOEffect>().enabled = false;
+			needToSwitchBackToMenu = false;
 			break;
 		case Room.Utopia:
 			Grid.utopiaWorld.transform.position = new Vector3(69.76709f, -21.1427f, 103.3317f);
@@ -97,7 +111,8 @@ public class RoomManager : MonoBehaviour {
 			break;
 		case Room.Dystopia:
 			Grid.blackShell.renderer.enabled = true;
-			Grid.dystopiaWorld.transform.position = new Vector3(66.37248f, 30.58784f, 40.3905f);
+			Grid.dystopiaWorld.transform.position = new Vector3(119.9163f, 36.40965f, 100.4285f);
+			Grid.dystopiaWorldLight.GetComponent<Light>().enabled = true;
 			StartCoroutine(FadeMenuRoom(false));
 //			StartCoroutine (MoveRoom (Grid.dystopiaWorld, new Vector3(66.37248f, 0.58784f, 40.3905f), new Vector3(66.37248f, 30.58784f, 40.3905f), hideAllWorlds));
 			break;
@@ -117,6 +132,15 @@ public class RoomManager : MonoBehaviour {
 			}
 			beginFade = false;
 		}
+		currentlySwitchingRooms = false;
+		// check to see if we need to initiate a transition back to the menu
+		if(needToSwitchBackToMenu && currentRoom != Room.Menu) {
+			if(highlightedRoom == currentRoom) {
+				needToSwitchBackToMenu = false;
+			} else {
+				SwitchRoom(Room.Menu);
+			}
+		}
 	}
 
 	void HideAllWorlds() {
@@ -132,7 +156,7 @@ public class RoomManager : MonoBehaviour {
 		}
 		Color baseColor = Grid.ceilingObject.renderer.material.color;
 		for(float lerp = 0.0f; lerp < 1.0f; ) {
-			lerp += Time.deltaTime / dissectDuration;
+			lerp += Time.deltaTime / fadeDuration;
 			float alpha = fadeIn ? lerp : (1.0f - lerp);
 			foreach(Transform child in Grid.actualRoomObject.transform) {
 				child.renderer.material.color = new Color(baseColor.r, baseColor.g, baseColor.b, alpha);
@@ -147,10 +171,37 @@ public class RoomManager : MonoBehaviour {
 		fading = false;
 	}
 
+	public delegate void Callback();
+
+	// given a parent object, fade all of its children to either alpha 1 or alpha 0, depending what fadeIn is set to, over a period of time in seconds
+	IEnumerator FadeObjects(GameObject parentObj, bool fadeIn, float duration, Color baseColor, Callback callback) {
+		// turn on all renderers
+		foreach(Transform child in parentObj.transform) {
+			child.renderer.enabled = true;
+		}
+		for(float lerp = 0.0f; lerp < 1.0f; ) {
+			lerp += Time.deltaTime / duration;
+			float alpha = fadeIn ? lerp : (1.0f - lerp);
+			foreach(Transform child in parentObj.transform) {
+				child.renderer.material.color = new Color(baseColor.r, baseColor.g, baseColor.b, alpha);
+			}
+			yield return 0;
+		}
+		// if we're fading out, turn off the renderer after we're done
+		if(!fadeIn) {
+			foreach(Transform child in parentObj.transform) {
+				child.renderer.enabled = false;
+			}
+		}
+		if(callback != null) {
+			callback ();
+		}
+	}
+	
 	// currently unused
 	IEnumerator DissectMenuRoom() {
 		for(float deltaY = 0.0f; deltaY < dissectSpeed; ) {
-			deltaY += dissectSpeed * Time.deltaTime / dissectDuration;
+			deltaY += dissectSpeed * Time.deltaTime / fadeDuration;
 			foreach (Transform child in Grid.roomObject.transform) {
 				if(child.tag != "Terrain") {
 					continue;
@@ -169,6 +220,7 @@ public class RoomManager : MonoBehaviour {
 		}
 	}
 
+	// moves the object from the given position to the given destination over a period of time, and calls HideAllWorlds() after it's done, if hideAllWorlds set to true
 	IEnumerator MoveRoom(GameObject room, Vector3 initPosition, Vector3 finalPosition, bool hideAllWorlds) {
 		if(initPosition == Vector3.zero) {
 			initPosition = room.transform.position;
@@ -186,12 +238,12 @@ public class RoomManager : MonoBehaviour {
 	}
 	
 	void Update () {
-		bool updateMonitors = false;
+		bool cursorMoved = false;
 		if(InputManager.GetAction("CursorLeft")) {
 			if((int)highlightedRoom <= 1 || selectorCurrentlyAnimating) {
 				return;
 			}
-			updateMonitors = true;
+			cursorMoved = true;
 			highlightedRoom--;
 			StartCoroutine(AnimateMovement(2.0f * Vector3.back));
 		}
@@ -199,21 +251,45 @@ public class RoomManager : MonoBehaviour {
 			if((int)highlightedRoom >= 4 || selectorCurrentlyAnimating) {
 				return;
 			}
-			updateMonitors = true;
+			cursorMoved = true;
 			highlightedRoom++;
 			StartCoroutine(AnimateMovement(2.0f * Vector3.forward));
 		} else if(InputManager.GetAction("Use")) {
+			// make the monitors fade
+			Color activeMonitorSetBaseColor = bufferMonitorSet.transform.Find ("Monitor-Main").renderer.material.color;
+			StartCoroutine(FadeObjects(activeMonitorSet, false, selectorAnimationDuration, activeMonitorSetBaseColor, null));
 			SwitchRoom(highlightedRoom);
 		}
-		if(updateMonitors) {
+		if(cursorMoved) {
 			UpdateMonitors (highlightedRoom);
+			needToSwitchBackToMenu = true;
+			SwitchRoom(Room.Menu);
 		}
 	}
 	
 	void UpdateMonitors(Room room) {
 		switch(room) {
-
+		case Room.Utopia:
+			bufferMonitorSet.transform.Find ("Monitor-Preview").renderer.material = Grid.materialMonitorPreviewUtopia;
+			bufferMonitorSet.transform.Find ("Monitor-Main").renderer.material = Grid.materialMonitorMainUtopia;
+			bufferMonitorSet.transform.Find ("Monitor-Hardware").renderer.material = Grid.materialMonitorHardwareUtopia;
+			break;
+		default:
+			bufferMonitorSet.transform.Find ("Monitor-Preview").renderer.material = Grid.materialMonitorDefault;
+			bufferMonitorSet.transform.Find ("Monitor-Main").renderer.material = Grid.materialMonitorDefault;
+			bufferMonitorSet.transform.Find ("Monitor-Hardware").renderer.material = Grid.materialMonitorDefault;
+			break;
 		}
+		Color activeMonitorSetBaseColor = bufferMonitorSet.transform.Find ("Monitor-Main").renderer.material.color;
+		Color bufferMonitorSetBaseColor = bufferMonitorSet.transform.Find ("Monitor-Main").renderer.material.color;
+		StartCoroutine(FadeObjects(activeMonitorSet, false, selectorAnimationDuration, activeMonitorSetBaseColor, null));
+		StartCoroutine(FadeObjects(bufferMonitorSet, true, selectorAnimationDuration, bufferMonitorSetBaseColor, SwapMonitorSets));
+	}
+
+	void SwapMonitorSets() {
+		GameObject temp = activeMonitorSet;
+		activeMonitorSet = bufferMonitorSet;
+		bufferMonitorSet = temp;
 	}
 	
 	IEnumerator AnimateMovement(Vector3 delta) {

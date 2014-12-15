@@ -18,18 +18,23 @@ static class Grid
 	public static GameObject fireBreath;
 	public static GUIText facelaserText;
 	public static GameObject roomObject;
+	public static GameObject monitorSetA, monitorSetB;
 	public static GameObject actualRoomObject;
 	public static GameObject ceilingObject;
-	public static GameObject floorObject;
 	public static GameObject utopiaWorld;
 	public static GameObject dystopiaWorld;
+	public static GameObject dystopiaWorldLight;
 	public static GameObject blackShell;
 	public static GameObject realEstate;
+	public static Material materialMonitorDefault;
+	public static Material materialMonitorPreviewUtopia;
+	public static Material materialMonitorMainUtopia;
+	public static Material materialMonitorHardwareUtopia;
 
 	static Grid()
 	{
-		explosionPrefab = LoadPrefab("Effects/Explosion");
-		flamesPrefab = LoadPrefab("Effects/Flames");
+		explosionPrefab = LoadPrefab ("Effects/Explosion");
+		flamesPrefab = LoadPrefab ("Effects/Flames");
 		boulderPrefab = LoadPrefab ("Weapons/BoulderWeapon");
 	}
 
@@ -51,13 +56,26 @@ static class Grid
 		o = SafeFind ("/FaceLaserText");
 		facelaserText = SafeComponent<GUIText> (o, "GUIText");
 		roomObject = SafeFind ("/Room");
+		monitorSetA = SafeFind ("/Room/MonitorSetA");
+		monitorSetB = SafeFind ("/Room/MonitorSetB");
 		actualRoomObject = SafeFind ("/Room/ActualRoom");
 		ceilingObject = SafeFind ("/Room/ActualRoom/Ceiling");
-		floorObject = SafeFind ("/Room/ActualRoom/Floor");
 		utopiaWorld = SafeFind ("/UtopiaWorld");
 		dystopiaWorld = SafeFind ("/DystopiaWorld");
+		dystopiaWorldLight = SafeFind ("/DystopiaWorld/Directional light");
 		blackShell = SafeFind ("/BlackShell");
 		realEstate = SafeFind ("/RealEstate");
+		materialMonitorDefault = LoadMaterial ("Materials/Monitor-Default");
+		materialMonitorPreviewUtopia = LoadMaterial ("Materials/Monitor-Polyworld-Preview");
+		materialMonitorMainUtopia = LoadMaterial ("Materials/Monitor-Polyworld-Main");
+		materialMonitorHardwareUtopia = LoadMaterial ("Materials/Monitor-Polyworld-Hardware");
+	}
+
+	private static Material LoadMaterial(string s)
+	{
+		Material o = (Material) Resources.Load (s, typeof(Material));
+		if ( o == null ) Debug.LogError("Could not find Object " +s);
+		return o;
 	}
 
 	private static UnityEngine.Object LoadPrefab(string s)
