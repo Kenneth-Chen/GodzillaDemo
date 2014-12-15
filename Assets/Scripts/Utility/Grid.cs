@@ -26,6 +26,8 @@ static class Grid
 	public static GameObject dystopiaWorldLight;
 	public static GameObject blackShell;
 	public static GameObject realEstate;
+	public static GameObject twitchRoomObject;
+	public static GameObject posterRoom, posterTwitch;
 	public static Material materialMonitorDefault;
 	public static Material materialMonitorPreviewUtopia;
 	public static Material materialMonitorMainUtopia;
@@ -65,6 +67,12 @@ static class Grid
 		dystopiaWorldLight = SafeFind ("/DystopiaWorld/Directional light");
 		blackShell = SafeFind ("/BlackShell");
 		realEstate = SafeFind ("/RealEstate");
+		twitchRoomObject = SafeFind ("/RoomTwitch");
+		if(twitchRoomObject != null) {
+			twitchRoomObject.SetActive(false);
+		}
+		posterRoom = SafeFind ("/PosterRoom");
+		posterTwitch = SafeFind ("/PosterTwitch");
 		materialMonitorDefault = LoadMaterial ("Materials/Monitor-Default");
 		materialMonitorPreviewUtopia = LoadMaterial ("Materials/Monitor-Polyworld-Preview");
 		materialMonitorMainUtopia = LoadMaterial ("Materials/Monitor-Polyworld-Main");

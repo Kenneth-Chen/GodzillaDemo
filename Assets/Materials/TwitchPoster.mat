@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Monitor-Polyworld-Preview
+  m_Name: TwitchPoster
   m_Shader: {fileID: 4800000, guid: da1b33dede4e647bcaf027fa70bf2162, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
@@ -17,10 +17,21 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 57491466ec92e41b687d7564f9f617a1, type: 3}
+          m_Texture: {fileID: 2800000, guid: 426c5728868fa4c8a9c465217c36569e, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
-    m_Floats: {}
+      data:
+        first:
+          name: _Illum
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _EmissionLM
+        second: 0
     m_Colors:
       data:
         first:

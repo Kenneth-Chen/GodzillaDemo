@@ -23,6 +23,8 @@ public class InputManager : MonoBehaviour {
 		case "Use":
 		case "Pickup":
 			return checkKeyAndButton(KeyCode.E, "A", mogaManagerScript.p1ButtonA);
+		case "Select":
+			return checkKeyAndButton(KeyCode.Space, "Y", mogaManagerScript.p1ButtonY);
 		case "Drop":
 			return checkKeyAndButton(KeyCode.Z, "LB", mogaManagerScript.p1ButtonL1);
 		case "ToggleLaser":

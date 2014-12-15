@@ -26,11 +26,18 @@ public class RoomManager : MonoBehaviour {
 	private bool selectorCurrentlyAnimating = false;
 
 	private GameObject activeMonitorSet, bufferMonitorSet;
-	private static Color defaultMonitorColor = new Color(101.0f/255.0f, 191.0f/255.0f, 255.0f/255.0f, 0.0f/255.0f);
+
+	private bool postersVisible = true;
+
+	private AudioSource scrollSound, selectSound, errorSound;
 
 	void Start() {
 		activeMonitorSet = Grid.monitorSetA;
 		bufferMonitorSet = Grid.monitorSetB;
+		AudioSource[] aSources = GetComponents<AudioSource> ();
+		scrollSound = aSources [0];
+		selectSound = aSources [1];
+		errorSound = aSources [2];
 	}
 
 	public void SwitchRoom(Room targetRoom) {
@@ -39,6 +46,7 @@ public class RoomManager : MonoBehaviour {
 	
 	IEnumerator SwitchRoomHelper(Room targetRoom)
 	{
+		Debug.Log (targetRoom);
 		if(currentRoom == targetRoom || currentlySwitchingRooms) {
 			yield break;
 		}
@@ -62,6 +70,16 @@ public class RoomManager : MonoBehaviour {
 		case Room.SpaceWorld:
 			StartCoroutine(FadeMenuRoom(true));
 			break;
+		}
+		if(targetRoom == Room.Menu) {
+			// bring the posters back, if they aren't visible
+			if(!postersVisible) {
+				StartCoroutine(FadeObject(Grid.posterRoom, true, fadeDuration, null));
+				StartCoroutine(FadeObject(Grid.posterTwitch, true, fadeDuration, null));
+				Grid.posterRoom.GetComponent<Collider>().enabled = true;
+				Grid.posterTwitch.GetComponent<Collider>().enabled = true;
+				postersVisible = true;
+			}
 		}
 		// wait for menu room to fade before continuing
 		if(beginFade) {
@@ -182,6 +200,9 @@ public class RoomManager : MonoBehaviour {
 		for(float lerp = 0.0f; lerp < 1.0f; ) {
 			lerp += Time.deltaTime / duration;
 			float alpha = fadeIn ? lerp : (1.0f - lerp);
+			if(alpha < 0.0f) {
+				alpha = 0.0f;
+			}
 			foreach(Transform child in parentObj.transform) {
 				child.renderer.material.color = new Color(baseColor.r, baseColor.g, baseColor.b, alpha);
 			}
@@ -192,6 +213,22 @@ public class RoomManager : MonoBehaviour {
 			foreach(Transform child in parentObj.transform) {
 				child.renderer.enabled = false;
 			}
+		}
+		if(callback != null) {
+			callback ();
+		}
+	}
+
+	IEnumerator FadeObject(GameObject obj, bool fadeIn, float duration, Callback callback) {
+		Color baseColor = obj.renderer.material.color;
+		for(float lerp = 0.0f; lerp < 1.0f; ) {
+			lerp += Time.deltaTime / duration;
+			float alpha = fadeIn ? lerp : (1.0f - lerp);
+			if(alpha < 0.0f) {
+				alpha = 0.0f;
+			}
+			obj.renderer.material.color = new Color(baseColor.r, baseColor.g, baseColor.b, alpha);
+			yield return 0;
 		}
 		if(callback != null) {
 			callback ();
@@ -240,7 +277,11 @@ public class RoomManager : MonoBehaviour {
 	void Update () {
 		bool cursorMoved = false;
 		if(InputManager.GetAction("CursorLeft")) {
-			if((int)highlightedRoom <= 1 || selectorCurrentlyAnimating) {
+			if(selectorCurrentlyAnimating) {
+				return;
+			}
+			if((int)highlightedRoom <= 1) {
+				errorSound.Play ();
 				return;
 			}
 			cursorMoved = true;
@@ -248,19 +289,34 @@ public class RoomManager : MonoBehaviour {
 			StartCoroutine(AnimateMovement(2.0f * Vector3.back));
 		}
 		else if(InputManager.GetAction("CursorRight")) {
-			if((int)highlightedRoom >= 4 || selectorCurrentlyAnimating) {
+			if(selectorCurrentlyAnimating) {
+				return;
+			}
+			if((int)highlightedRoom >= 4) {
+				errorSound.Play ();
 				return;
 			}
 			cursorMoved = true;
 			highlightedRoom++;
 			StartCoroutine(AnimateMovement(2.0f * Vector3.forward));
-		} else if(InputManager.GetAction("Use")) {
-			// make the monitors fade
-			Color activeMonitorSetBaseColor = bufferMonitorSet.transform.Find ("Monitor-Main").renderer.material.color;
-			StartCoroutine(FadeObjects(activeMonitorSet, false, selectorAnimationDuration, activeMonitorSetBaseColor, null));
-			SwitchRoom(highlightedRoom);
+		} else if(InputManager.GetAction("Select")) {
+			if(currentRoom != highlightedRoom && !currentlySwitchingRooms) {
+				selectSound.Play ();
+				// make the monitors fade
+				Color activeMonitorSetBaseColor = bufferMonitorSet.transform.Find ("Monitor-Main").renderer.material.color;
+				StartCoroutine(FadeObjects(activeMonitorSet, false, selectorAnimationDuration, activeMonitorSetBaseColor, null));
+				// hide the posters
+				postersVisible = false;
+				StartCoroutine(FadeObject(Grid.posterRoom, false, selectorAnimationDuration, null));
+				StartCoroutine(FadeObject(Grid.posterTwitch, false, selectorAnimationDuration, null));
+				Grid.posterRoom.GetComponent<Collider>().enabled = false;
+				Grid.posterTwitch.GetComponent<Collider>().enabled = false;
+				// load the room
+				SwitchRoom(highlightedRoom);
+			}
 		}
 		if(cursorMoved) {
+			scrollSound.Play();
 			UpdateMonitors (highlightedRoom);
 			needToSwitchBackToMenu = true;
 			SwitchRoom(Room.Menu);
