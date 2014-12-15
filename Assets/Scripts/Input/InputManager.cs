@@ -27,6 +27,10 @@ public class InputManager : MonoBehaviour {
 			return checkKeyAndButton(KeyCode.Z, "LB", mogaManagerScript.p1ButtonL1);
 		case "ToggleLaser":
 			return checkKeyAndButton(KeyCode.Backslash, "RB", mogaManagerScript.p1ButtonR1);
+		case "CursorLeft":
+			return checkKeyAndButton(KeyCode.Z, "LeftTrigger", mogaManagerScript.p1ButtonL2);
+		case "CursorRight":
+			return checkKeyAndButton(KeyCode.X, "RightTrigger", mogaManagerScript.p1ButtonR2);
 		case "PrimaryAttack":
 			return checkKeyAndButton(KeyCode.F, "RightTrigger", mogaManagerScript.p1ButtonR2);
 		case "SecondaryAttack":

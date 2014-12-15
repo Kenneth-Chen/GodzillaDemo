@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: TestMat_Glass_Diamond
+  m_Name: TestMat_Glass_Thin
   m_Shader: {fileID: 4800000, guid: c0096a96d54378848b8674c4703cd253, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
@@ -52,15 +52,15 @@ Material:
       data:
         first:
           name: _Reflection
-        second: .716417909
+        second: .446428567
       data:
         first:
           name: _Shininess
-        second: .367015034
+        second: .341809064
       data:
         first:
           name: _Gloss
-        second: 1
+        second: .642857134
       data:
         first:
           name: _FrezPow
@@ -72,11 +72,11 @@ Material:
       data:
         first:
           name: _EdgeAlpha
-        second: 0
+        second: 1
       data:
         first:
           name: _Metalics
-        second: .343283594
+        second: .196428567
       data:
         first:
           name: _Density
@@ -93,7 +93,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .852941155, g: .852941155, b: .852941155, a: .549019635}
+        second: {r: 1, g: 1, b: 1, a: .549019635}
       data:
         first:
           name: _SpecColor
