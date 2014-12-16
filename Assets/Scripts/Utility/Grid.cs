@@ -17,6 +17,7 @@ static class Grid
 	public static GameObject rightHandItemSlot;
 	public static GameObject fireBreath;
 	public static GUIText facelaserText;
+	public static GameObject lightbulb;
 	public static GameObject roomObject;
 	public static GameObject monitorSetA, monitorSetB;
 	public static GameObject actualRoomObject;
@@ -27,11 +28,15 @@ static class Grid
 	public static GameObject blackShell;
 	public static GameObject realEstate;
 	public static GameObject twitchRoomObject;
+	public static GameObject twitchVideoFeed;
 	public static GameObject posterRoom, posterTwitch;
 	public static Material materialMonitorDefault;
 	public static Material materialMonitorPreviewUtopia;
 	public static Material materialMonitorMainUtopia;
 	public static Material materialMonitorHardwareUtopia;
+	public static Material materialMonitorPreviewAlien;
+	public static Material materialMonitorMainAlien;
+	public static Material materialMonitorHardwareAlien;
 
 	static Grid()
 	{
@@ -57,6 +62,7 @@ static class Grid
 		}
 		o = SafeFind ("/FaceLaserText");
 		facelaserText = SafeComponent<GUIText> (o, "GUIText");
+		lightbulb = SafeFind ("/Lightbulb");
 		roomObject = SafeFind ("/Room");
 		monitorSetA = SafeFind ("/Room/MonitorSetA");
 		monitorSetB = SafeFind ("/Room/MonitorSetB");
@@ -68,6 +74,7 @@ static class Grid
 		blackShell = SafeFind ("/BlackShell");
 		realEstate = SafeFind ("/RealEstate");
 		twitchRoomObject = SafeFind ("/RoomTwitch");
+		twitchVideoFeed = SafeFind ("/RoomTwitch/TwitchVideoFeed");
 		if(twitchRoomObject != null) {
 			twitchRoomObject.SetActive(false);
 		}
@@ -77,6 +84,9 @@ static class Grid
 		materialMonitorPreviewUtopia = LoadMaterial ("Materials/Monitor-Polyworld-Preview");
 		materialMonitorMainUtopia = LoadMaterial ("Materials/Monitor-Polyworld-Main");
 		materialMonitorHardwareUtopia = LoadMaterial ("Materials/Monitor-Polyworld-Hardware");
+		materialMonitorPreviewAlien = LoadMaterial ("Materials/Monitor-Alien-Preview");
+		materialMonitorMainAlien = LoadMaterial ("Materials/Monitor-Alien-Main");
+		materialMonitorHardwareAlien = LoadMaterial ("Materials/Monitor-Alien-Hardware");
 	}
 
 	private static Material LoadMaterial(string s)

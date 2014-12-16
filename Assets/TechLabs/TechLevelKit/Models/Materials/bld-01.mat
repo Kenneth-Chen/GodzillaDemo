@@ -17,7 +17,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: db2cc38142bb46c48aacc32680183f88, type: 3}
+          m_Texture: {fileID: 2800000, guid: 2ec7dc2eb71546144a20d180858de8e7, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -48,12 +48,12 @@ Material:
         second: .794702888
       data:
         first:
-          name: _Parallax
-        second: .0199999996
-      data:
-        first:
           name: _EmissionLM
         second: 50
+      data:
+        first:
+          name: _Parallax
+        second: .0199999996
     m_Colors:
       data:
         first:

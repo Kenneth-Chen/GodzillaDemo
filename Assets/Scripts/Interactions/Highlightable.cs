@@ -4,7 +4,6 @@ using System.Collections;
 public class Highlightable : MonoBehaviour {
 
 	public string title;
-	public int destinationNumber;
 	public Color HighlightColor = Color.white;
 	private WireframeBehaviour wireFrame_script;
 	private bool active = false;
@@ -15,43 +14,57 @@ public class Highlightable : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		if(renderer != null) {
-			originalColor = renderer.material.color;
-		}
-//		wireFrame_script = gameObject.AddComponent<WireframeBehaviour>();
-//		wireFrame_script.LineColor = HighlightColor;
-//		wireFrame_script.ShowLines = false;
-		//wireFrame_script = (WireframeBehaviour) GetComponent(typeof(WireframeBehaviour));
+		Init ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if(active) {
-			// wireFrame_script.ShowLines = true;
-			if(renderer != null) {
-				float lerp = Mathf.PingPong (Time.time, lerpDuration) / lerpDuration;
-				renderer.material.color = Color.Lerp (Color.black, HighlightColor, lerp);
-			}
-//			transform.RotateAround(transform.position, Vector3.up, rotateAmount);
+			UpdateWhileFocused();
 		}
 		if(!active) {
-//			wireFrame_script.ShowLines = false;
 			if(wasActive) {
-				if(renderer != null) {
-					renderer.material.color = originalColor;
-				}
+				OnLostFocus();
 			}
 			wasActive = false;
 		}
 		active = false;
+		PostUpdate ();
 	}
 
 	public void highlight(bool active){
 		if(!wasActive && active) {
-			originalColor = renderer.material.color;
+			OnGainFocus();
 		}
 		this.active = active;
 		wasActive = active;
+	}
+
+	public virtual void Init() {
+		if(renderer != null) {
+			originalColor = renderer.material.color;
+		}
+	}
+
+	public virtual void OnGainFocus() {
+		originalColor = renderer.material.color;
+	}
+
+	public virtual void OnLostFocus() {
+		if(renderer != null) {
+			renderer.material.color = originalColor;
+		}
+	}
+	
+	public virtual void UpdateWhileFocused() {
+		if(renderer != null) {
+			float lerp = Mathf.PingPong (Time.time, lerpDuration) / lerpDuration;
+			renderer.material.color = Color.Lerp (Color.black, HighlightColor, lerp);
+		}
+//		transform.RotateAround(transform.position, Vector3.up, rotateAmount);
+	}
+
+	public virtual void PostUpdate() {
 	}
 
 	public void pickUp(GameObject pickerUpper){

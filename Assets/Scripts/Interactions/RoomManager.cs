@@ -330,6 +330,11 @@ public class RoomManager : MonoBehaviour {
 			bufferMonitorSet.transform.Find ("Monitor-Main").renderer.material = Grid.materialMonitorMainUtopia;
 			bufferMonitorSet.transform.Find ("Monitor-Hardware").renderer.material = Grid.materialMonitorHardwareUtopia;
 			break;
+		case Room.Dystopia:
+			bufferMonitorSet.transform.Find ("Monitor-Preview").renderer.material = Grid.materialMonitorPreviewAlien;
+			bufferMonitorSet.transform.Find ("Monitor-Main").renderer.material = Grid.materialMonitorMainAlien;
+			bufferMonitorSet.transform.Find ("Monitor-Hardware").renderer.material = Grid.materialMonitorHardwareAlien;
+			break;
 		default:
 			bufferMonitorSet.transform.Find ("Monitor-Preview").renderer.material = Grid.materialMonitorDefault;
 			bufferMonitorSet.transform.Find ("Monitor-Main").renderer.material = Grid.materialMonitorDefault;
