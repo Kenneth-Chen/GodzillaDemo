@@ -30,9 +30,9 @@ public class InputManager : MonoBehaviour {
 		case "ToggleLaser":
 			return checkKeyAndButton(KeyCode.Backslash, "RB", mogaManagerScript.p1ButtonR1);
 		case "CursorLeft":
-			return checkKeyAndButton(KeyCode.Z, "LeftTrigger", mogaManagerScript.p1ButtonL2);
+			return checkKeyAndAxisThresholdLower(KeyCode.Z, "LeftAnalogueHorizontal", mogaManagerScript.p1ButtonL2);
 		case "CursorRight":
-			return checkKeyAndButton(KeyCode.X, "RightTrigger", mogaManagerScript.p1ButtonR2);
+			return checkKeyAndAxisThresholdUpper(KeyCode.X, "LeftAnalogueHorizontal", mogaManagerScript.p1ButtonR2);
 		case "PrimaryAttack":
 			return checkKeyAndButton(KeyCode.F, "RightTrigger", mogaManagerScript.p1ButtonR2);
 		case "SecondaryAttack":
@@ -78,6 +78,22 @@ public class InputManager : MonoBehaviour {
 
 	private static bool checkKeyAndButton(KeyCode keyCode, string button, KeyCode mogaKey) {
 		if(Input.GetButton(button))
+			return true;
+		if(Input.GetKeyDown(mogaKey))
+			return true;
+		return keyCode == lastKeyHit;
+	}
+
+	private static bool checkKeyAndAxisThresholdUpper(KeyCode keyCode, string axis, KeyCode mogaKey) {
+		if(Input.GetAxis(axis) > 0.95f)
+			return true;
+		if(Input.GetKeyDown(mogaKey))
+			return true;
+		return keyCode == lastKeyHit;
+	}
+	
+	private static bool checkKeyAndAxisThresholdLower(KeyCode keyCode, string axis, KeyCode mogaKey) {
+		if(Input.GetAxis(axis) < -0.95f)
 			return true;
 		if(Input.GetKeyDown(mogaKey))
 			return true;

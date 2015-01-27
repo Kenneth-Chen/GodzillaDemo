@@ -3,7 +3,7 @@ using System.Collections;
 
 public class FramerateIndicator : MonoBehaviour {
 	
-	float updateInterval = 0.5f;
+	float updateInterval = 2.0f;
 	
 	private float accum = 0.0f; // FPS accumulated over the interval
 	private int frames = 0; // Frames drawn over the interval

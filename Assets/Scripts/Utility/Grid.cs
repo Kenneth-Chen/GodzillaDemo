@@ -25,10 +25,12 @@ static class Grid
 	public static GameObject utopiaWorld;
 	public static GameObject dystopiaWorld;
 	public static GameObject dystopiaWorldLight;
+	public static GameObject targetWorld;
 	public static GameObject blackShell;
 	public static GameObject realEstate;
 	public static GameObject twitchRoomObject;
 	public static GameObject twitchVideoFeed;
+	public static GameObject twitchVideoManager;
 	public static GameObject posterRoom, posterTwitch;
 	public static Material materialMonitorDefault;
 	public static Material materialMonitorPreviewUtopia;
@@ -37,6 +39,9 @@ static class Grid
 	public static Material materialMonitorPreviewAlien;
 	public static Material materialMonitorMainAlien;
 	public static Material materialMonitorHardwareAlien;
+	public static Material materialMonitorPreviewTarget;
+	public static Material materialMonitorMainTarget;
+	public static Material materialMonitorHardwareTarget;
 
 	static Grid()
 	{
@@ -71,10 +76,12 @@ static class Grid
 		utopiaWorld = SafeFind ("/UtopiaWorld");
 		dystopiaWorld = SafeFind ("/DystopiaWorld");
 		dystopiaWorldLight = SafeFind ("/DystopiaWorld/Directional light");
+		targetWorld = SafeFind ("/TargetWorld");
 		blackShell = SafeFind ("/BlackShell");
 		realEstate = SafeFind ("/RealEstate");
 		twitchRoomObject = SafeFind ("/RoomTwitch");
 		twitchVideoFeed = SafeFind ("/RoomTwitch/TwitchVideoFeed");
+		twitchVideoManager = SafeFind ("/RoomTwitch/VideoManager");
 		if(twitchRoomObject != null) {
 			twitchRoomObject.SetActive(false);
 		}
@@ -87,6 +94,9 @@ static class Grid
 		materialMonitorPreviewAlien = LoadMaterial ("Materials/Monitor-Alien-Preview");
 		materialMonitorMainAlien = LoadMaterial ("Materials/Monitor-Alien-Main");
 		materialMonitorHardwareAlien = LoadMaterial ("Materials/Monitor-Alien-Hardware");
+		materialMonitorPreviewTarget = LoadMaterial ("Materials/Monitor-Target-Preview");
+		materialMonitorMainTarget = LoadMaterial ("Materials/Monitor-Target-Main");
+		materialMonitorHardwareTarget = LoadMaterial ("Materials/Monitor-Target-Hardware");
 	}
 
 	private static Material LoadMaterial(string s)

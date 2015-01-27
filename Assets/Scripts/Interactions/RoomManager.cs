@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class RoomManager : MonoBehaviour {
 	
-	public enum Room { Menu=0, Utopia=1, Dystopia=2, SpaceWorld=3, RealEstate=4 };
+	public enum Room { Menu=0, Utopia=1, Dystopia=2, Target=3, Space=4 };
 	public static Room currentRoom = Room.Menu;
 	private Room highlightedRoom = Room.Utopia;
 	public Material opaqueMaterial, transparentMaterial;
@@ -53,7 +53,8 @@ public class RoomManager : MonoBehaviour {
 		currentlySwitchingRooms = true;
 		Room originalRoom = currentRoom;
 		currentRoom = targetRoom;
-		bool hideAllWorlds = targetRoom == Room.SpaceWorld || targetRoom == Room.RealEstate;
+		bool hideAllWorlds = false;
+//		bool hideAllWorlds = targetRoom == Room.SpaceWorld || targetRoom == Room.RealEstate;
 		// fade in the menu room before doing anything else
 		switch (originalRoom) {
 		case Room.Menu:
@@ -64,12 +65,18 @@ public class RoomManager : MonoBehaviour {
 		case Room.Dystopia:
 			StartCoroutine(FadeMenuRoom(true));
 			break;
-		case Room.RealEstate:
+		case Room.Target:
 			StartCoroutine(FadeMenuRoom(true));
 			break;
-		case Room.SpaceWorld:
+		case Room.Space:
 			StartCoroutine(FadeMenuRoom(true));
 			break;
+//		case Room.RealEstate:
+//			StartCoroutine(FadeMenuRoom(true));
+//			break;
+//		case Room.SpaceWorld:
+//			StartCoroutine(FadeMenuRoom(true));
+//			break;
 		}
 		if(targetRoom == Room.Menu) {
 			// bring the posters back, if they aren't visible
@@ -103,11 +110,16 @@ public class RoomManager : MonoBehaviour {
 			Grid.blackShell.renderer.enabled = false;
 			Grid.dystopiaWorld.transform.position = -9999 * Vector3.down;
 			break;
-		case Room.SpaceWorld:
+		case Room.Target:
+			Grid.targetWorld.transform.position = -9999 * Vector3.down;
 			break;
-		case Room.RealEstate:
-			Grid.realEstate.renderer.enabled = false;
+		case Room.Space:
 			break;
+//		case Room.SpaceWorld:
+//			break;
+//		case Room.RealEstate:
+//			Grid.realEstate.renderer.enabled = false;
+//			break;
 		}
 		if(hideAllWorlds) {
 			Grid.blackShell.renderer.enabled = false;
@@ -134,14 +146,18 @@ public class RoomManager : MonoBehaviour {
 			StartCoroutine(FadeMenuRoom(false));
 //			StartCoroutine (MoveRoom (Grid.dystopiaWorld, new Vector3(66.37248f, 0.58784f, 40.3905f), new Vector3(66.37248f, 30.58784f, 40.3905f), hideAllWorlds));
 			break;
-		case Room.RealEstate:
-			Grid.realEstate.renderer.enabled = true;
+		case Room.Target:
+			Grid.targetWorld.transform.position = new Vector3(76.24837f, 40.78567f, 45.18032f);
 			StartCoroutine(FadeMenuRoom(false));
 			break;
-		case Room.SpaceWorld:
-			RenderSettings.skybox = spaceSkybox;
-			StartCoroutine(FadeMenuRoom(false));
-			break;
+//		case Room.RealEstate:
+//			Grid.realEstate.renderer.enabled = true;
+//			StartCoroutine(FadeMenuRoom(false));
+//			break;
+//		case Room.SpaceWorld:
+//			RenderSettings.skybox = spaceSkybox;
+//			StartCoroutine(FadeMenuRoom(false));
+//			break;
 		}
 		// wait for menu room to fade before exiting this coroutine
 		if(beginFade) {
@@ -281,7 +297,9 @@ public class RoomManager : MonoBehaviour {
 				return;
 			}
 			if((int)highlightedRoom <= 1) {
-				errorSound.Play ();
+				if(!errorSound.isPlaying) {
+					errorSound.Play ();
+				}
 				return;
 			}
 			cursorMoved = true;
@@ -292,8 +310,10 @@ public class RoomManager : MonoBehaviour {
 			if(selectorCurrentlyAnimating) {
 				return;
 			}
-			if((int)highlightedRoom >= 4) {
-				errorSound.Play ();
+			if((int)highlightedRoom >= 3) {
+				if(!errorSound.isPlaying) {
+					errorSound.Play ();
+				}
 				return;
 			}
 			cursorMoved = true;
@@ -334,6 +354,11 @@ public class RoomManager : MonoBehaviour {
 			bufferMonitorSet.transform.Find ("Monitor-Preview").renderer.material = Grid.materialMonitorPreviewAlien;
 			bufferMonitorSet.transform.Find ("Monitor-Main").renderer.material = Grid.materialMonitorMainAlien;
 			bufferMonitorSet.transform.Find ("Monitor-Hardware").renderer.material = Grid.materialMonitorHardwareAlien;
+			break;
+		case Room.Target:
+			bufferMonitorSet.transform.Find ("Monitor-Preview").renderer.material = Grid.materialMonitorPreviewTarget;
+			bufferMonitorSet.transform.Find ("Monitor-Main").renderer.material = Grid.materialMonitorMainTarget;
+			bufferMonitorSet.transform.Find ("Monitor-Hardware").renderer.material = Grid.materialMonitorHardwareTarget;
 			break;
 		default:
 			bufferMonitorSet.transform.Find ("Monitor-Preview").renderer.material = Grid.materialMonitorDefault;

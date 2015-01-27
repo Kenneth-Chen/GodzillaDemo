@@ -16,12 +16,10 @@ public class Focusable : Highlightable {
 	}
 	
 	public override void OnGainFocus() {
-		Debug.Log ("gained focus");
 		target = 0.0f;
 	}
 	
 	public override void OnLostFocus() {
-		Debug.Log ("lost focus");
 		target = 1.0f;
 	}
 	

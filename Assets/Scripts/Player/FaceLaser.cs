@@ -9,7 +9,8 @@ public class FaceLaser : MonoBehaviour {
 	private double nextFireTime = 0.0;
 	private GameObject target_object;
 	private Highlightable target_script;
-
+	private 
+	
 	void Update ()
 	{
 		RaycastHit hit;
@@ -24,6 +25,8 @@ public class FaceLaser : MonoBehaviour {
 				setHighlighted(true);
 				if(InputManager.GetAction("Use")) {
 					actuate();
+				} else {
+					actuate();
 				}
 			} else {
 				// if we lose focus, reset the timer
@@ -37,7 +40,7 @@ public class FaceLaser : MonoBehaviour {
 			ToggleLaser();
 		}
 	}
-
+	
 	void actuate()
 	{
 		if(target_script != null) {
@@ -45,7 +48,7 @@ public class FaceLaser : MonoBehaviour {
 		}
 		reset ();
 	}
-
+	
 	void setHighlighted(bool vis)
 	{
 		if (vis == true)
@@ -62,14 +65,14 @@ public class FaceLaser : MonoBehaviour {
 			}
 		}
 	}
-
+	
 	void ToggleLaser() {
 		if(Time.time > nextFireTime) {
 			gunBarrel.renderer.enabled = !gunBarrel.renderer.enabled;
 			nextFireTime = Time.time + defaultDelayTime;
 		}
 	}
-
+	
 	private void reset()
 	{
 		setHighlighted (false);
